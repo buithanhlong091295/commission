@@ -22,7 +22,7 @@ func (c *CommissionDomain) GetMembersBySponsorID(ctx context.Context, req *pbDTO
 		})
 	}
 	res := &pbDTO.GetMembersByUserIDResponse{
-		Users: usInfo,
+		Listings: usInfo,
 	}
 	return res, nil
 }
