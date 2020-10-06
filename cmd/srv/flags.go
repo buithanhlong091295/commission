@@ -71,7 +71,7 @@ var (
 		Name:   "name",
 		Usage:  "Service name",
 		EnvVar: "USER_SERVICE_NAME",
-		Value:  "Wallet",
+		Value:  "Commission",
 	}
 	JaegerAddressFlag = cli.StringFlag{
 		Name:   "jaeger_address",
