@@ -203,7 +203,7 @@ func (s *srv) loadGRPCServer() error {
 		s.consul,
 		s.cfg.ServiceName,
 		s.cfg.GRPC.GetPortInt(),
-		[]string{"wallet"},
+		[]string{"Commission"},
 	)
 
 	userSite, err := grpcDelivery.NewUserSiteDelivery()
