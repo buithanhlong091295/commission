@@ -51,7 +51,7 @@ var (
 	MongoDataBaseFlag = cli.StringFlag{
 		Name:   "mongo.db",
 		Usage:  "Mongo port used connect mongoDB",
-		Value:  "Wallet",
+		Value:  "Commission",
 		EnvVar: "MONGO_DB",
 	}
 	MongoUsernameFlag = cli.StringFlag{
