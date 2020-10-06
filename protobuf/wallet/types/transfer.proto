@@ -1,0 +1,20 @@
+syntax = "proto3";
+package types;
+
+option go_package = "xtek/exchange/__SERVICE_NAME__/pb/wallet/types";
+
+enum BalanceTypes {
+  SPOT = 0;
+  C2C = 1;
+}
+
+message Transfer {
+  BalanceTypes from = 1;
+  BalanceTypes to = 2;
+  string userID = 3;
+  string coin = 4;
+  string id = 5;
+  string amount = 6;
+  int64 date = 7;
+  string status = 8;
+}

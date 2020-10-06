@@ -1,0 +1,24 @@
+syntax = "proto3";
+package coinbase;
+option go_package = "xtek/exchange/__SERVICE_NAME__/pb/coinbase";
+
+import "google/api/annotations.proto";
+import "coinbase/dto/internal.proto";
+
+
+service InternalSiteService {
+  rpc CreateAddress(dto.CreateAddressRequest) returns (dto.CreateAddressResponse) {
+    option (google.api.http) = { post: "/v1/coinbase/createAddress", body: "*"};
+  }
+  rpc CreateAccountCoinbase(dto.CreateAccountCoinbaseRequest) returns (dto.CreateAccountCoinbaseResponse) {
+    option (google.api.http) = { post: "/v1/coinbase/createAccountCoinbase", body: "*"};
+  }
+  rpc ReceiveMsgFromWebhook(dto.ReceiveMsgFromWebhookRequest) returns (dto.ReceiveMsgFromWebhookResponse) {
+    option (google.api.http) = { post: "/v1/coinbase/webhook/{webhookKey}", body: "*"};
+  }
+  rpc GetPriceExternal (dto.GetPriceExternalRequest) returns (dto.GetPriceExternalResponse){
+    option (google.api.http).get = "/v1/coinbase/price";
+    // option (google.api.http) = {post :"/v1/orderHistories", body: "*"};
+  }
+}
+

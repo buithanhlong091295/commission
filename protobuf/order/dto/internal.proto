@@ -1,0 +1,44 @@
+syntax = "proto3";
+package dto;
+
+option go_package = "xtek/exchange/__SERVICE_NAME__/pb/order/dto";
+
+import "order/types/order.proto";
+
+
+message GetTotalAmountInOrderByCoinRequest {
+    string coin = 1;
+  }
+  
+  message GetTotalAmountInOrderByCoinResponse {
+    string amountInOrder = 1; 
+  }
+
+  message GetPairCoinRequest {
+    string baseCoin = 1;
+    string  quoteCoin = 2;
+  }
+  
+  message GetPairCoinResponse {
+    string baseCoin = 1;
+    int32 baseCoinDecimals = 2;
+    string  quoteCoin = 3;
+    int32 quoteCoinDecimals = 4;
+    bool isActive = 5;
+    int32 rank = 6;
+    string makeFee = 7;
+    string takeFee = 8;
+    int64 Timestamp = 9;
+    types.PriceFilterOutput priceFilter = 10;
+    types.QtyFilterOutput qtyFilter = 11;
+    string symbol = 12;
+  }
+
+message GetTotalAmountInOrderByUserIDRequest {
+  string userID  = 1;
+  string coin = 2;
+}
+
+message GetTotalAmountInOrderByUserIDResponse {
+  string amountInOrder = 1; 
+}

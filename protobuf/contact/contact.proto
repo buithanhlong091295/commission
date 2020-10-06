@@ -1,0 +1,21 @@
+syntax = "proto3";
+package contact;
+
+option go_package = "xtek/exchange/__SERVICE_NAME__/pb/contact";
+
+import "google/api/annotations.proto";
+import "contact/dto/internal.proto";
+
+
+service InternalSiteService {
+  // internal
+  rpc SendMail(dto.SendMailRequest) returns (dto.SendMailResponse) {
+    option (google.api.http) = { post: "/v1/contact/sendMail", body: "*" };
+  }
+  rpc CreateContent(dto.CreateContentRequest) returns (dto.CreateContentResponse) {
+    option (google.api.http) = { post: "/v1/contact/content/create", body: "*" };
+  }
+  rpc SendMailForIdentification(dto.SendMailForIdentificationRequest) returns (dto.SendMailForIdentificationResponse) {
+    option (google.api.http) = { post: "/v1/contact/sendMail/identification", body: "*" };
+  }
+}

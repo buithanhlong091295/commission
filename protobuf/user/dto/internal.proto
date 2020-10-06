@@ -1,0 +1,60 @@
+syntax = "proto3";
+package dto;
+
+import "validate/validate.proto";
+
+option go_package = "xtek/exchange/__SERVICE_NAME__/pb/user/dto";
+
+message Empty {}
+
+message GetUserByIDRequest {
+  string userID = 1;
+}
+
+message GetUserByIDResponse {
+  string ID = 1;
+  string email = 2;
+  string firstName = 3;
+  string lastName = 4;
+  int32 status = 5;
+  bool isIdentified = 6;
+  bool isVerifyEmail = 7;
+  bool isActive2FA = 8;
+}
+
+
+message IsAllowTradeByUserIDRequest {
+  string userID = 1;
+}
+
+message IsAllowTradeByUserIDResponse {
+  bool isAllow = 1;
+}
+
+message SetUserPendingIndentificationRequest {
+  string userID = 1;
+}
+message SetUserPendingIndentificationRespone {
+  bool isSuccess = 1;
+}
+
+message ConfirmUserIdentificationRequest {
+  string userID = 1;
+  bool isIdentified = 2;
+}
+
+message ConfirmUserIdentificationRespone {
+  bool isSuccess = 1;
+}
+
+message GetUserEmailByIDRequest {
+  string userID = 1;
+}
+message GetUserEmailByIDResponse {
+  string email = 1;
+}
+
+message ValidateGoogleVerifyCodeRequest {
+  string userID = 1 [(validate.rules).string.uuid = true];
+  string code = 2 [(validate.rules).string.len = 6];
+}

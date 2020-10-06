@@ -1,0 +1,110 @@
+syntax = "proto3";
+package dto;
+
+option go_package = "xtek/exchange/__SERVICE_NAME__/pb/wallet/dto";
+
+import "wallet/types/wallet.proto";
+import "wallet/types/transfer.proto";
+import "paginate/paginate.proto";
+import "validate/validate.proto";
+
+message GetBalancesByTokenResponse { repeated types.Balance balances = 1; }
+
+message GetC2CBalancesResponse { repeated types.BalanceC2C listings = 1; }
+
+message GetTransactionByTxIDRequest {
+  string txID = 1 [ (validate.rules).string = {min_len : 1} ];
+}
+message GetTransactionByTxIDResponse {
+  string txID = 1;
+  string userID = 2;
+  string address = 3;
+  string coin = 4;
+  string amount = 5;
+  int32 type = 6;
+  int64 createdAt = 7;
+  string id = 8;
+}
+
+message GetUserEstimatedCoinToBTCResponse {
+  // repeated CoinEstimated coins = 1;
+  map<string, string> coins = 1;
+  string totalEstimated = 2;
+}
+
+message GetTransactionHistoriesByTokenNCoinRequest {
+  string coin = 1 [ (validate.rules).string = {min_len : 1} ];
+  types.WalletType type = 2 [ (validate.rules).enum.defined_only = true ];
+  paginate.PaginateRequest pagination = 3;
+}
+
+message GetTransactionHistoriesByTokenNCoinResponse {
+  string userID = 1;
+  repeated types.Transaction histories = 2;
+  paginate.PaginateResponse pagination = 3;
+}
+
+message GetBalanceByCoinRequest {
+  string coin = 1 [ (validate.rules).string = {min_len : 1} ];
+}
+message GetBalanceByCoinResponse {
+  string coin = 1;
+  string amount = 2;
+  string userID = 3;
+  string address = 4;
+}
+
+message GetCoinResponse { repeated types.Coin listings = 1; }
+
+message CreateRequestWithdrawalRequest {
+  string coin = 1 [ (validate.rules).string = {min_len : 1} ];
+  double amount = 2 [ (validate.rules).double = {gte : 1} ];
+  string address = 3 [ (validate.rules).string = {min_len : 1} ];
+  string code2FA = 4 [ (validate.rules).string = {min_len : 1} ];
+}
+message CreateRequestWithdrawalResponse { string id = 1; }
+
+message CancelWithdrawalRequest {
+  string id = 1 [ (validate.rules).string = {min_len : 1} ];
+}
+message CancelWithdrawalResponse { bool isSuccess = 1; }
+
+message ConfirmRequestWithdrawalRequest {
+  string id = 1 [ (validate.rules).string = {min_len : 1} ];
+  string codeVerify = 2 [ (validate.rules).string = {min_len : 1} ];
+  string userID = 3 [ (validate.rules).string = {min_len : 1} ];
+}
+message ConfirmRequestWithdrawalResponse { bool isSuccess = 1; }
+
+message GetUserTotalWithdrawalResponse { double totalWithdrawal = 1; }
+
+message UserWithdrawPreCheckRequest {
+  string coin = 1;
+  string amount = 2;
+  string address = 3;
+}
+
+message UserWithdrawApplyRequest {
+  string address = 1;
+  string coin = 2;
+  string amount = 3;
+  string emailVerifyCode = 4;
+  string googleVerifyCode = 5;
+}
+
+message GetUserWithdrawInfoRequest { string coin = 1; }
+
+message GetUserWithdrawInfoResponse {
+  string prevWithdrawAmount = 1;
+  string totalWithdrawAmount = 2;
+  string withdrawFee = 3;
+  string withdrawMin = 4;
+}
+
+message TransferBalanceToAnotherWalletRequest {
+ 
+  string coin = 1;
+  string amount = 2;
+  types.BalanceTypes fromWallet = 3;
+  types.BalanceTypes toWallet = 4;
+}

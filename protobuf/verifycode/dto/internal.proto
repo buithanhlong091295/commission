@@ -1,0 +1,30 @@
+syntax = "proto3";
+package dto;
+
+option go_package = "xtek/exchange/__SERVICE_NAME__/pb/verifycode/dto";
+
+import "validate/validate.proto";
+import "verifycode/types/verifycode.proto";
+
+
+message CreateVerifyCodeRequest {
+    string payload = 1;
+    types.VerifyCodeTypes type = 2 [(validate.rules).enum.defined_only = true];
+  }
+  message CreateVerifyCodeResponse {
+    bool isSuccess = 1;
+  }
+  message ConfirmVerifyCodeRequest {
+    string code = 1;
+    string userID = 2;
+    types.VerifyCodeTypes type = 3 [(validate.rules).enum.defined_only = true];
+  }
+  message ConfirmVerifyCodeResponse {
+    bool isSuccess = 1;
+  }
+
+message ValidateEmailVerifyCodeRequest {
+  types.UserVerifyCodeTypes type = 1 [(validate.rules).enum.defined_only = true];
+  string userID = 2 [(validate.rules).string.uuid = true];
+  string code = 3 [(validate.rules).string.len = 6];
+}

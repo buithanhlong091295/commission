@@ -1,0 +1,43 @@
+syntax = "proto3";
+package dto;
+
+option go_package = "xtek/exchange/__SERVICE_NAME__/pb/coinbase/dto";
+
+import "coinbase/types/coinbase.proto";
+
+import "validate/validate.proto";
+
+message CreateAddressRequest {
+  string coin = 1 [(validate.rules).string = {min_len: 1}];
+}
+message CreateAddressResponse {
+  string address = 1;
+}
+
+message CreateAccountCoinbaseRequest {
+  string coin = 1 [(validate.rules).string = {min_len: 1}];
+  string accountID = 2 [(validate.rules).string = {min_len: 1}]; 
+}
+message CreateAccountCoinbaseResponse {
+  bool result = 1;
+}
+
+message ReceiveMsgFromWebhookRequest {
+  string id = 1 [(validate.rules).string = {min_len: 1}];
+  string type = 2 [(validate.rules).string = {min_len: 1}];
+  types.Data data = 3;
+  types.Account account = 4;
+  types.Additional_data additional_data = 5;
+  string webhookKey = 6 [(validate.rules).string = {min_len: 1}];
+}
+message ReceiveMsgFromWebhookResponse {
+  bool result = 1;
+}
+
+message GetPriceExternalRequest {
+  string baseCoin = 1 [(validate.rules).string = {min_len: 1}];
+  string quoteCoin = 2 [(validate.rules).string = {min_len: 1}];
+}
+message GetPriceExternalResponse {
+  string price = 1;
+}

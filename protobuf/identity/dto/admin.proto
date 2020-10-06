@@ -1,0 +1,41 @@
+syntax = "proto3";
+package dto;
+
+option go_package = "xtek/exchange/__SERVICE_NAME__/pb/identity/dto";
+
+import "paginate/paginate.proto";
+import "identity/types/identity.proto";
+import "validate/validate.proto";
+
+
+message GetIdentifierByUserIDRequest {
+    string userID = 1;
+}
+message GetIdentifierByUserIDResponse {
+    string fullName = 1;
+    string national = 2;
+    string idNo = 3;
+    string frontsideURL = 4;
+    string backsideURL = 5;
+    string portraitURL = 6;
+    string userID = 7;
+    int32 status = 8;
+}
+
+message GetAllUsersIdentityRequest {
+    types.IdentityStatus status = 1 [(validate.rules).enum.defined_only = true];
+    paginate.PaginateRequest pagination = 2;
+}
+message GetAllUsersIdentityResponse {
+    repeated GetIdentifierByUserIDResponse userIdentity = 1;
+    paginate.PaginateResponse pagination = 2;
+}
+
+message AdminConfirmIdentifierRequest {
+    string userID = 1;
+    int32 confirmIdentity = 2;
+    string reason = 3;
+}
+message AdminConfirmIdentifierResponse {
+    bool isSuccess = 1;
+}

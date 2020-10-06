@@ -1,0 +1,39 @@
+syntax = "proto3";
+package types;
+
+option go_package = "xtek/exchange/__SERVICE_NAME__/pb/lending/types";
+import "validate/validate.proto";
+
+enum ContractStatus {
+  PENDING = 0;
+  COMPLETED = 1;
+  RUNNING = 2;
+  FAILURE = 3;
+}
+
+message ContractEventRequest { string contractID = 1; }
+
+message ContractExecuteBalance {
+  string senderID = 1;
+  string receiverID = 2;
+  string amount = 3;
+
+  string relationID = 4;
+
+
+  string commissionAmount = 5;
+  string commissionRecipientID = 6;
+  string commissionHistoryID = 7;
+
+  string feeAmount = 8;
+  string feeRecipientID = 9;
+
+  string coin = 10;
+
+  Types type = 11;
+
+  enum Types {
+    INITIAL_CONTRACT = 0;
+    INTEREST = 1;
+  }
+}

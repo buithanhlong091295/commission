@@ -1,0 +1,15 @@
+syntax = "proto3";
+package dto;
+
+import "validate/validate.proto";
+
+option go_package = "xtek/exchange/__SERVICE_NAME__/pb/trade/dto";
+
+message GetAvgPriceRequest {
+  string basecoin = 1;
+  string quotecoin = 2;
+}
+
+message GetAvgPriceResponse {
+  string price = 1;
+}

@@ -1,0 +1,30 @@
+syntax = "proto3";
+package types;
+
+option go_package = "xtek/exchange/__SERVICE_NAME__/pb/contact/types";
+
+enum ContentTypes {
+    EMPTY = 0;
+    EMAIL = 1;
+    PASSWORD = 2;
+    RESET_TWO_FA = 3;
+    RESEND_VERIFY_EMAIL = 4;
+    CONFIRM_REQUEST_WITH_DRAWAL = 5;
+    CONFIRM_REQUEST_FOR_NEW_IP = 6;
+}
+
+message SendEmailVerfiyCodeForWithdraw {
+    string userID = 1;
+    string amount = 2;
+    string address = 3;
+    string coin = 4;
+    string verifyCode = 5;
+}
+
+message SendWithdrawSuccess {
+    string userID = 1;
+    string amount = 2;
+    string address = 3;
+    string coin = 4;
+    string txID = 5;
+}

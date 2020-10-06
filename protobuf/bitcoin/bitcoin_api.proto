@@ -1,0 +1,11 @@
+syntax = "proto3";
+package coinbase;
+option go_package = "xtek/exchange/__SERVICE_NAME__/pb/bitcoin";
+
+import "google/api/annotations.proto";
+import "bitcoin/dto/internal.proto";
+
+service InternalSiteService {
+    rpc GetNewAddress(dto.GetNewAddressRequest) returns (dto.GetNewAddressResponse);
+    rpc SendToAddress(dto.SendToAddressRequest) returns (dto.SendToAddressResponse);
+}

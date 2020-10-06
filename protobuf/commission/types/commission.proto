@@ -1,0 +1,26 @@
+syntax = "proto3";
+package types;
+
+option go_package = "xtek/exchange/__SERVICE_NAME__/pb/commission/types";
+import "validate/validate.proto";
+
+message Commission {
+  string id = 1;
+  string senderID = 2;
+  string senderEmail = 7;
+  string receiverID = 3;
+  string amount = 4;
+  int32 status = 5;
+  int64 createdAt = 6;
+}
+
+enum CommissionType {
+    LENDING = 0;
+}
+
+message User {
+    string userID = 1;
+    string email = 2;
+    string earned = 3;
+    int32 numMembers = 4;
+  }

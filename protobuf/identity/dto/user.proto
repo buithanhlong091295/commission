@@ -1,0 +1,19 @@
+syntax = "proto3";
+package dto;
+
+option go_package = "xtek/exchange/__SERVICE_NAME__/pb/identity/dto";
+
+
+message SubmitKYCRequest{
+    string fullName = 1;
+    string national = 2;
+    string idNo = 3;
+    string frontsideURL = 4;
+    string backsideURL = 5;
+    string portraitURL = 6;
+  }
+  
+  message SubmitKYCResponse {
+    bool isSuccess = 1;
+  }
+  

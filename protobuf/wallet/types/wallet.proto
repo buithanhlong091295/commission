@@ -1,0 +1,179 @@
+syntax = "proto3";
+package types;
+
+option go_package = "xtek/exchange/__SERVICE_NAME__/pb/wallet/types";
+
+message Coin {
+  string name = 1;
+  string coin = 2;
+  string logoURL = 3;
+  bool isActive = 4;
+  bool depositEnable = 5;
+  bool withdrawEnable = 6;
+  bool isCollateral = 7;
+  bool isC2C = 8;
+  bool isLending = 9;
+  int32 decimals = 10;
+
+  message AdvSetting {
+    string minAmount = 1;
+    string maxPercent = 2;
+  }
+  
+  AdvSetting advSetting = 11;
+  string initialLTV = 12;
+  string marginCall = 13;
+  string liquidationLTV = 14;
+}
+
+// message Coinn {
+//   string coin = 2;
+//   string name = 3;
+//   string logoURL  = 4;
+//   bool depositEnable = 9;
+//   bool withdrawEnable = 10;
+//   string addressRegex = 12;
+//   int32 minConfirm = 13;
+//   int32 decimals = 15;
+//   string addressScanURL = 16;
+//   bool isActive = 17;
+// }
+
+message BalanceC2C {
+  string logoURL = 1;
+  string coin = 2;
+  string free = 3;
+  string freeze = 4;
+}
+
+message Balance {
+  string userID = 1;
+  string coin = 2;
+  string coinName = 3;
+  string logoURL = 4;
+  string totalBalance = 5;
+  string amount = 6;
+  string inOrder = 7;
+  string estimatedUSD = 8;
+  bool depositEnable = 9;
+  bool withdrawEnable = 10;
+  string address = 11;
+  string addressRegex = 12;
+  int32 minConfirm = 13;
+  string locked = 14;
+  int32 decimals = 15;
+  string addressScanURL = 16;
+}
+
+message BalanceOfAdmin {
+  string userID = 1;
+  string coin = 2;
+  string coinName = 3;
+  string logoURL = 4;
+  string totalBalance = 5;
+  string amount = 6;
+  string inOrder = 7;
+  string estimatedUSD = 8;
+  bool isWithdrawalBlock = 9;
+  bool isDepositBlock = 10;
+  string address = 11;
+  string totalWithdrawal = 12;
+  string totalDeposit = 13;
+  int32 decimals = 14;
+}
+
+message CoinEstimated {
+  string coin = 1;
+  string value = 2;
+}
+message Order {
+  string baseToken = 1;
+  string quoteToken = 2;
+  int32 type = 3;
+  int32 side = 4;
+  string average = 5;
+  string price = 6;
+  string filled = 7;
+  string amount = 8;
+  string total = 9;
+  int32 status = 10;
+}
+message Transaction {
+  int32 status = 1;
+  string amount = 2;
+  string coin = 3;
+  int64 date = 4;
+  string address = 5;
+  string txID = 6;
+  int32 type = 7;
+  string id = 8;
+  string userID = 9;
+  string email = 10;
+  string firstName = 11;
+  string lastName = 12;
+  string addressScanURL = 13;
+  string txIDScanURL = 14;
+  string fee = 15;
+  int64 confirmations = 16;
+}
+
+message Trade {
+  string makerUserID = 1;
+  string takerUserID = 2;
+  string makerOrderID = 3;
+  string takerOrderID = 4;
+  string pricePoint = 5;
+  string qty = 6;
+  string baseCoin = 7;
+  string quoteCoin = 8;
+  bool isBuyerMaker = 9;
+}
+
+message ExecuteExchangeErrorResponse {
+  string makerOrderID = 1;
+  string takerOrderID = 2;
+  string messsage = 3;
+}
+
+message ExecuteExchangeSuccessResponse {
+  string makerOrderID = 1;
+  string takerOrderID = 2;
+}
+
+message Totals {
+  string coin = 1;
+  string totalBalance = 2;
+  string totalInOrder = 3;
+  string totalDeposit = 4;
+  string totalWithdrawal = 5;
+}
+
+enum WalletStatus {
+  UNKNOWN_STATUS = 0;
+  COMPLETED = 1;
+  PENDING = 2;
+  REJECTED = 3;
+  CANCELLED = 4;
+  COMFIRMED = 5;
+}
+
+enum WalletType {
+  UNKNOWN_TYPE = 0;
+  DEPOSIT = 1;
+  WITH_DRAWAL = 2;
+}
+
+message Type {
+  string type = 1;
+  repeated types.CoinOfType coins = 2;
+}
+
+message CoinOfType {
+  string coin = 1;
+  string logo_url = 2;
+}
+
+message InternalBalance {
+  string coin = 1;
+  string amount = 2;
+}

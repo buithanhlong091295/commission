@@ -1,0 +1,84 @@
+syntax = "proto3";
+package types;
+
+option go_package = "xtek/exchange/__SERVICE_NAME__/pb/lending/types";
+import "validate/validate.proto";
+
+message Coin {
+  string coin = 1;
+  string logoURL = 2;
+  int32 decimals = 3;
+}
+
+message Collateral {
+  Coin coin = 1;
+  string initialAmount = 2;
+  string adjustmentAmount = 3;
+}
+
+message CreateCollateral {
+  string coin = 1;
+  string ltv = 2;
+  string marginCall = 3;
+}
+
+message BorrowTerm {
+  int32 days = 1 [ (validate.rules).int32 = {gte : 1, lt : 500} ];
+  string dailyInterestPercent = 2
+      [ (validate.rules).string = {min_len : 1, max_len : 12} ];
+}
+
+enum AdvertisementType {
+  LENDING = 0;
+  BORROW = 1;
+}
+
+message Advertisements {
+  string id = 1;
+  string amount = 8;
+  Coin coin = 3;
+  BorrowTerm borrowTerm = 5;
+  string earlySettlementPenaltyFee = 6;
+  AdvertisementType type = 7;
+  int32 status = 9;
+  string userID = 10;
+  int64 createdAt = 11;
+}
+
+enum AdvertisementStatus {
+  ADV_PENDING = 0;
+  ADV_OPENNING = 1;
+  ADV_MATCHED = 2;
+  ADV_COMPLETED = 3;
+  ADV_CANCELLED = 4;
+  ADV_FAILURE = 5;
+}
+
+message AdvertisementInternal {
+  string id = 1;
+  string amount = 8;
+  string coin = 3;
+  BorrowTerm borrowTerm = 5;
+  string earlySettlementPenaltyFee = 6;
+  AdvertisementType type = 7;
+  AdvertisementStatus status = 9;
+  string userID = 10;
+}
+
+message UserProfile {
+  string idNo = 1;
+  string userID = 2;
+  int32 transactionCount = 3;
+  int32 monthTransactionCount = 4;
+  string totalLendingAmount = 6;
+}
+
+message Range {
+  string min = 1;
+  string max = 2;
+}
+
+message RangeAdvertisement {
+  string minAmount = 1;
+  string maxPercent = 2;
+}

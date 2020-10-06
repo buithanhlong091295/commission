@@ -1,0 +1,319 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "coinbase/coinbase_api.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/createAccountCoinbase": {
+      "post": {
+        "operationId": "InternalSiteService_CreateAccountCoinbase",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/dtoCreateAccountCoinbaseResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dtoCreateAccountCoinbaseRequest"
+            }
+          }
+        ],
+        "tags": [
+          "InternalSiteService"
+        ]
+      }
+    },
+    "/v1/createAddress": {
+      "post": {
+        "operationId": "InternalSiteService_CreateAddress",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/dtoCreateAddressResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dtoCreateAddressRequest"
+            }
+          }
+        ],
+        "tags": [
+          "InternalSiteService"
+        ]
+      }
+    },
+    "/v1/price": {
+      "get": {
+        "operationId": "InternalSiteService_GetPriceExternal",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/dtoGetPriceExternalResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "baseCoin",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "quoteCoin",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "InternalSiteService"
+        ]
+      }
+    },
+    "/v1/webhook/{webhookKey}": {
+      "post": {
+        "operationId": "InternalSiteService_ReceiveMsgFromWebhook",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/dtoReceiveMsgFromWebhookResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "webhookKey",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dtoReceiveMsgFromWebhookRequest"
+            }
+          }
+        ],
+        "tags": [
+          "InternalSiteService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "dtoCreateAccountCoinbaseRequest": {
+      "type": "object",
+      "properties": {
+        "coin": {
+          "type": "string"
+        },
+        "accountID": {
+          "type": "string"
+        }
+      }
+    },
+    "dtoCreateAccountCoinbaseResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      }
+    },
+    "dtoCreateAddressRequest": {
+      "type": "object",
+      "properties": {
+        "coin": {
+          "type": "string"
+        }
+      }
+    },
+    "dtoCreateAddressResponse": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string"
+        }
+      }
+    },
+    "dtoGetPriceExternalResponse": {
+      "type": "object",
+      "properties": {
+        "price": {
+          "type": "string"
+        }
+      }
+    },
+    "dtoReceiveMsgFromWebhookRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "data": {
+          "$ref": "#/definitions/typesData"
+        },
+        "account": {
+          "$ref": "#/definitions/typesAccount"
+        },
+        "additional_data": {
+          "$ref": "#/definitions/typesAdditional_data"
+        },
+        "webhookKey": {
+          "type": "string"
+        }
+      }
+    },
+    "dtoReceiveMsgFromWebhookResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "type_url": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "typesAccount": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "typesAdditional_data": {
+      "type": "object",
+      "properties": {
+        "hash": {
+          "type": "string"
+        },
+        "amount": {
+          "$ref": "#/definitions/typesAmount"
+        },
+        "transaction": {
+          "$ref": "#/definitions/typesTran"
+        }
+      }
+    },
+    "typesAmount": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string"
+        }
+      }
+    },
+    "typesData": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        }
+      }
+    },
+    "typesTran": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

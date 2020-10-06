@@ -1,0 +1,1313 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "wallet/wallet_api.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/admin/balances/{userID}": {
+      "get": {
+        "operationId": "AdminSiteService_GetBalancesByUserID",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/dtoGetBalancesByUserIDResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "userID",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "AdminSiteService"
+        ]
+      }
+    },
+    "/v1/admin/transaction/update": {
+      "post": {
+        "operationId": "AdminSiteService_UpdateTransactionStatus",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/dtoUpdateTransactionStatusResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dtoUpdateTransactionStatusRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AdminSiteService"
+        ]
+      }
+    },
+    "/v1/admin/transaction/user": {
+      "get": {
+        "operationId": "AdminSiteService_GetUserTransactionHistories",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/dtoGetUserTransactionHistoriesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "userID",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "coin",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "UNKNOWN_TYPE",
+              "DEPOSIT",
+              "WITH_DRAWAL"
+            ],
+            "default": "UNKNOWN_TYPE"
+          },
+          {
+            "name": "pagination.limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pagination.page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "AdminSiteService"
+        ]
+      }
+    },
+    "/v1/admin/withdrawal": {
+      "get": {
+        "operationId": "AdminSiteService_GetListWithdrawal",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/dtoGetListWithdrawalResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "UNKNOWN_STATUS",
+              "COMPLETED",
+              "PENDING",
+              "REJECTED",
+              "CANCELLED",
+              "COMFIRMED"
+            ],
+            "default": "UNKNOWN_STATUS"
+          },
+          {
+            "name": "pagination.limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pagination.page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "AdminSiteService"
+        ]
+      }
+    },
+    "/v1/balance": {
+      "get": {
+        "operationId": "UserSiteService_GetBalanceByCoin",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/dtoGetBalanceByCoinResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "coin",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "UserSiteService"
+        ]
+      }
+    },
+    "/v1/balance/validate": {
+      "post": {
+        "operationId": "InternalSiteService_ValidateBalance",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/dtoValidateBalanceResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dtoValidateBalanceRequest"
+            }
+          }
+        ],
+        "tags": [
+          "InternalSiteService"
+        ]
+      }
+    },
+    "/v1/balance/validateAvailable": {
+      "post": {
+        "operationId": "InternalSiteService_ValidateAvailableBalance",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/dtoValidateAvailableBalanceResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dtoValidateAvailableBalanceRequest"
+            }
+          }
+        ],
+        "tags": [
+          "InternalSiteService"
+        ]
+      }
+    },
+    "/v1/balances": {
+      "get": {
+        "operationId": "UserSiteService_GetBalancesByToken",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/dtoGetBalancesByTokenResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "tags": [
+          "UserSiteService"
+        ]
+      }
+    },
+    "/v1/coins": {
+      "get": {
+        "operationId": "UserSiteService_GetCoins",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/dtoGetCoinResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "tags": [
+          "UserSiteService"
+        ]
+      }
+    },
+    "/v1/createBalanceDefault": {
+      "get": {
+        "operationId": "InternalSiteService_CreateBalanceDefault",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/dtoCreateBalanceDefaultResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "userID",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "InternalSiteService"
+        ]
+      }
+    },
+    "/v1/createCoin": {
+      "post": {
+        "operationId": "InternalSiteService_CreateCoin",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/dtoCreateCoinResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dtoCreateCoinRequest"
+            }
+          }
+        ],
+        "tags": [
+          "InternalSiteService"
+        ]
+      }
+    },
+    "/v1/depositWallet": {
+      "post": {
+        "operationId": "InternalSiteService_HandleDepositWallet",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/dtoHandleDepositnWithWalletResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dtoHandleDepositnWithWalletRequest"
+            }
+          }
+        ],
+        "tags": [
+          "InternalSiteService"
+        ]
+      }
+    },
+    "/v1/estimatedToBTC": {
+      "get": {
+        "operationId": "UserSiteService_GetUserEstimatedCoinToBTC",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/dtoGetUserEstimatedCoinToBTCResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "tags": [
+          "UserSiteService"
+        ]
+      }
+    },
+    "/v1/histories": {
+      "get": {
+        "operationId": "UserSiteService_GetTransactionHistoriesByTokenNCoin",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/dtoGetTransactionHistoriesByTokenNCoinResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "coin",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "UNKNOWN_TYPE",
+              "DEPOSIT",
+              "WITH_DRAWAL"
+            ],
+            "default": "UNKNOWN_TYPE"
+          },
+          {
+            "name": "pagination.limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pagination.page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "UserSiteService"
+        ]
+      }
+    },
+    "/v1/transaction": {
+      "get": {
+        "operationId": "UserSiteService_GetTransactionByTxID",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/dtoGetTransactionByTxIDResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "txID",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "UserSiteService"
+        ]
+      }
+    },
+    "/v1/withdrawal/cancel/{id}": {
+      "post": {
+        "operationId": "UserSiteService_CancelWithdrawal",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/dtoCancelWithdrawalResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dtoCancelWithdrawalRequest"
+            }
+          }
+        ],
+        "tags": [
+          "UserSiteService"
+        ]
+      }
+    },
+    "/v1/withdrawal/confirm/{id}": {
+      "post": {
+        "operationId": "UserSiteService_ConfirmRequestWithdrawal",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/dtoConfirmRequestWithdrawalResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dtoConfirmRequestWithdrawalRequest"
+            }
+          }
+        ],
+        "tags": [
+          "UserSiteService"
+        ]
+      }
+    },
+    "/v1/withdrawal/create": {
+      "post": {
+        "operationId": "UserSiteService_CreateRequestWithdrawal",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/dtoCreateRequestWithdrawalResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dtoCreateRequestWithdrawalRequest"
+            }
+          }
+        ],
+        "tags": [
+          "UserSiteService"
+        ]
+      }
+    },
+    "/v1/withdrawal/total": {
+      "get": {
+        "operationId": "UserSiteService_GetUserTotalWithdrawal",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/dtoGetUserTotalWithdrawalResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "tags": [
+          "UserSiteService"
+        ]
+      }
+    },
+    "/v1/withdrawalWallet": {
+      "post": {
+        "operationId": "InternalSiteService_HandleWithdrawalWallet",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/dtoHandleDepositnWithdrawalWalletResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dtoHandleDepositnWithdrawalWalletRequest"
+            }
+          }
+        ],
+        "tags": [
+          "InternalSiteService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "dtoCancelWithdrawalRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "dtoCancelWithdrawalResponse": {
+      "type": "object",
+      "properties": {
+        "isSuccess": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      }
+    },
+    "dtoConfirmRequestWithdrawalRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "codeVerify": {
+          "type": "string"
+        },
+        "userID": {
+          "type": "string"
+        }
+      }
+    },
+    "dtoConfirmRequestWithdrawalResponse": {
+      "type": "object",
+      "properties": {
+        "isSuccess": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      }
+    },
+    "dtoCreateBalanceDefaultResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      }
+    },
+    "dtoCreateCoinRequest": {
+      "type": "object",
+      "properties": {
+        "coin": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "logoUrl": {
+          "type": "string"
+        }
+      }
+    },
+    "dtoCreateCoinResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "string"
+        }
+      }
+    },
+    "dtoCreateRequestWithdrawalRequest": {
+      "type": "object",
+      "properties": {
+        "coin": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "number",
+          "format": "double"
+        },
+        "address": {
+          "type": "string"
+        },
+        "code2FA": {
+          "type": "string"
+        }
+      }
+    },
+    "dtoCreateRequestWithdrawalResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "dtoGetBalanceByCoinResponse": {
+      "type": "object",
+      "properties": {
+        "coin": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "string"
+        },
+        "userID": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        }
+      }
+    },
+    "dtoGetBalancesByTokenResponse": {
+      "type": "object",
+      "properties": {
+        "balances": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/typesBalance"
+          }
+        }
+      }
+    },
+    "dtoGetBalancesByUserIDResponse": {
+      "type": "object",
+      "properties": {
+        "balances": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/typesBalanceOfAdmin"
+          }
+        }
+      }
+    },
+    "dtoGetCoinResponse": {
+      "type": "object",
+      "properties": {
+        "coin": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/typesCoin"
+          }
+        }
+      }
+    },
+    "dtoGetListWithdrawalResponse": {
+      "type": "object",
+      "properties": {
+        "lists": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/typesTransaction"
+          }
+        },
+        "pagination": {
+          "$ref": "#/definitions/paginatePaginateResponse"
+        },
+        "totalWithdrawal": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "dtoGetTransactionByTxIDResponse": {
+      "type": "object",
+      "properties": {
+        "txID": {
+          "type": "string"
+        },
+        "userID": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "coin": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "string"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "int64"
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "dtoGetTransactionHistoriesByTokenNCoinResponse": {
+      "type": "object",
+      "properties": {
+        "userID": {
+          "type": "string"
+        },
+        "histories": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/typesTransaction"
+          }
+        },
+        "pagination": {
+          "$ref": "#/definitions/paginatePaginateResponse"
+        }
+      }
+    },
+    "dtoGetUserEstimatedCoinToBTCResponse": {
+      "type": "object",
+      "properties": {
+        "coins": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "repeated CoinEstimated coins = 1;"
+        },
+        "totalEstimated": {
+          "type": "string"
+        }
+      }
+    },
+    "dtoGetUserTotalWithdrawalResponse": {
+      "type": "object",
+      "properties": {
+        "totalWithdrawal": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "dtoGetUserTransactionHistoriesResponse": {
+      "type": "object",
+      "properties": {
+        "histories": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/typesTransaction"
+          }
+        },
+        "pagination": {
+          "$ref": "#/definitions/paginatePaginateResponse"
+        }
+      }
+    },
+    "dtoHandleDepositnWithWalletRequest": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "number",
+          "format": "double"
+        },
+        "coin": {
+          "type": "string"
+        },
+        "txID": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        }
+      }
+    },
+    "dtoHandleDepositnWithWalletResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      }
+    },
+    "dtoHandleDepositnWithdrawalWalletRequest": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "number",
+          "format": "double"
+        },
+        "coin": {
+          "type": "string"
+        },
+        "txID": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        }
+      }
+    },
+    "dtoHandleDepositnWithdrawalWalletResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      }
+    },
+    "dtoUpdateTransactionStatusRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/typesWalletStatus"
+        }
+      }
+    },
+    "dtoUpdateTransactionStatusResponse": {
+      "type": "object",
+      "properties": {
+        "isSuccess": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      }
+    },
+    "dtoValidateAvailableBalanceRequest": {
+      "type": "object",
+      "properties": {
+        "userID": {
+          "type": "string"
+        },
+        "coin": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "string"
+        }
+      }
+    },
+    "dtoValidateAvailableBalanceResponse": {
+      "type": "object",
+      "properties": {
+        "isVaild": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      }
+    },
+    "dtoValidateBalanceRequest": {
+      "type": "object",
+      "properties": {
+        "userID": {
+          "type": "string"
+        },
+        "coin": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "string"
+        }
+      }
+    },
+    "dtoValidateBalanceResponse": {
+      "type": "object",
+      "properties": {
+        "isVaild": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      }
+    },
+    "paginatePaginateRequest": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "page": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "paginatePaginateResponse": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "currentPage": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "type_url": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "typesBalance": {
+      "type": "object",
+      "properties": {
+        "userID": {
+          "type": "string"
+        },
+        "coin": {
+          "type": "string"
+        },
+        "coinName": {
+          "type": "string"
+        },
+        "logoURL": {
+          "type": "string"
+        },
+        "totalBalance": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "string"
+        },
+        "inOrder": {
+          "type": "string"
+        },
+        "estimatedUSD": {
+          "type": "string"
+        },
+        "isWithdrawalBlock": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "isDepositBlock": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "address": {
+          "type": "string"
+        }
+      }
+    },
+    "typesBalanceOfAdmin": {
+      "type": "object",
+      "properties": {
+        "userID": {
+          "type": "string"
+        },
+        "coin": {
+          "type": "string"
+        },
+        "coinName": {
+          "type": "string"
+        },
+        "logoURL": {
+          "type": "string"
+        },
+        "totalBalance": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "string"
+        },
+        "inOrder": {
+          "type": "string"
+        },
+        "estimatedUSD": {
+          "type": "string"
+        },
+        "isWithdrawalBlock": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "isDepositBlock": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "address": {
+          "type": "string"
+        },
+        "totalWithdrawal": {
+          "type": "string"
+        },
+        "totalDeposit": {
+          "type": "string"
+        }
+      }
+    },
+    "typesCoin": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "coin": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "isActive": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "isDepositBlock": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "isWithdrawalBlock": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      }
+    },
+    "typesTransaction": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "amount": {
+          "type": "string"
+        },
+        "coin": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string",
+          "format": "int64"
+        },
+        "address": {
+          "type": "string"
+        },
+        "txID": {
+          "type": "string"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "id": {
+          "type": "string"
+        },
+        "userID": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        }
+      }
+    },
+    "typesWalletStatus": {
+      "type": "string",
+      "enum": [
+        "UNKNOWN_STATUS",
+        "COMPLETED",
+        "PENDING",
+        "REJECTED",
+        "CANCELLED",
+        "COMFIRMED"
+      ],
+      "default": "UNKNOWN_STATUS"
+    },
+    "typesWalletType": {
+      "type": "string",
+      "enum": [
+        "UNKNOWN_TYPE",
+        "DEPOSIT",
+        "WITH_DRAWAL"
+      ],
+      "default": "UNKNOWN_TYPE"
+    }
+  }
+}

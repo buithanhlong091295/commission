@@ -1,0 +1,234 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "cryptocurrency/cryptocurrency_api.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/GenerateAddressByCoin": {
+      "post": {
+        "operationId": "InternalSiteService_GenerateAddressByCoin",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/dtoGenerateAddressByCoinReponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dtoGenerateAddressByCoinRequest"
+            }
+          }
+        ],
+        "tags": [
+          "InternalSiteService"
+        ]
+      }
+    },
+    "/v1/admin/transfer/cse": {
+      "post": {
+        "operationId": "AdminSiteService_AdminTransferCSE",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/dtoAdminTransferCSEResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dtoAdminTransferCSERequest"
+            }
+          }
+        ],
+        "tags": [
+          "AdminSiteService"
+        ]
+      }
+    },
+    "/v1/receivedNoti": {
+      "post": {
+        "operationId": "InternalSiteService_ReceivedNotification",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/dtoReceivedNotificationReponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/dtoReceivedNotificationRequest"
+            }
+          }
+        ],
+        "tags": [
+          "InternalSiteService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "dtoAdminTransferCSERequest": {
+      "type": "object",
+      "properties": {
+        "password": {
+          "type": "string"
+        },
+        "toAddress": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "dtoAdminTransferCSEResponse": {
+      "type": "object",
+      "properties": {
+        "isSuccess": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      }
+    },
+    "dtoGenerateAddressByCoinReponse": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string"
+        }
+      }
+    },
+    "dtoGenerateAddressByCoinRequest": {
+      "type": "object",
+      "properties": {
+        "coin": {
+          "type": "string"
+        }
+      }
+    },
+    "dtoReceivedNotificationReponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      }
+    },
+    "dtoReceivedNotificationRequest": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "data": {
+          "$ref": "#/definitions/typesReceiveNotificationPayload"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "type_url": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "typesRawTransaction": {
+      "type": "object",
+      "properties": {
+        "txId": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        }
+      }
+    },
+    "typesReceiveNotificationPayload": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "rawTransaction": {
+          "$ref": "#/definitions/typesRawTransaction"
+        }
+      }
+    }
+  }
+}

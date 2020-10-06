@@ -1,0 +1,51 @@
+syntax = "proto3";
+package dto;
+
+option go_package = "xtek/exchange/__SERVICE_NAME__/pb/wallet/dto";
+
+import "wallet/types/wallet.proto";
+import "paginate/paginate.proto";
+import "validate/validate.proto";
+
+message GetListWithdrawalRequest {
+  types.WalletStatus status = 1 [ (validate.rules).enum.defined_only = true ];
+  paginate.PaginateRequest pagination = 2;
+}
+
+message GetListWithdrawalResponse {
+  repeated types.Transaction lists = 1;
+  paginate.PaginateResponse pagination = 2;
+  int32 totalWithdrawal = 3;
+}
+
+message GetUserTransactionHistoriesRequest {
+  string userID = 1 [ (validate.rules).string = {min_len : 1} ];
+  string coin = 2 [ (validate.rules).string = {min_len : 1} ];
+  types.WalletType type = 3 [ (validate.rules).enum.defined_only = true ];
+  paginate.PaginateRequest pagination = 4;
+}
+
+message GetUserTransactionHistoriesResponse {
+  repeated types.Transaction histories = 1;
+  paginate.PaginateResponse pagination = 2;
+}
+
+message UpdateTransactionStatusRequest {
+  string id = 1 [ (validate.rules).string = {min_len : 1} ];
+  types.WalletStatus status = 2 [ (validate.rules).enum.defined_only = true ];
+}
+message UpdateTransactionStatusResponse { bool isSuccess = 1; }
+
+message GetBalancesByUserIDRequest {
+  string userID = 1 [ (validate.rules).string = {min_len : 1} ];
+}
+message GetBalancesByUserIDResponse {
+  repeated types.BalanceOfAdmin balances = 1;
+}
+
+message Empty {}
+
+message ConfirmUserWithdrawRequest {
+  string id = 1;
+  string status = 2;
+}

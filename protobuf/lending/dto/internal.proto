@@ -1,0 +1,17 @@
+syntax = "proto3";
+package dto;
+
+option go_package = "xtek/exchange/__SERVICE_NAME__/pb/lending/dto";
+
+import "lending/types/advertisements.proto";
+import "paginate/paginate.proto";
+import "validate/validate.proto";
+
+message GetTotalFreezeByUserIDNCoinResponse {
+  string amount = 1;
+}
+
+message GetTotalFreezeByUserIDNCoinRequest {
+  string userID = 1;
+  string coin = 2;
+}

@@ -1,0 +1,81 @@
+syntax = "proto3";
+package types;
+
+option go_package = "xtek/exchange/__SERVICE_NAME__/pb/user/types";
+
+message LoginHistory {
+  string userID = 1;
+  string ip = 2;
+  int64 timestamp = 3;
+  string location = 4;
+  string deviceName = 5;
+
+  enum Status {
+    FAILURE = 0;
+    LOGGED_IN = 1;
+    LOGGED_OUT = 2;
+  }
+  
+  Status status = 6;
+}
+
+message UserInfo {
+  string email = 1;
+  string firstName = 3;
+  string lastName = 4;
+  bool isVerifyEmail = 5;
+  bool isActive2FA = 6;
+  bool isIdentified = 7;
+  int32 status = 8;
+  string userID = 9;
+}
+
+enum UserStatus {
+  NEW_USER = 0;
+	USER_ACTIVED = 1;
+	USER_BLOCKED = 2;
+	USER_TRADE_BLOCKED = 3;
+}
+
+enum UserIdentityStatus {
+  NOT_YET = 0;
+  PENDING = 1;
+  SUCCESS = 2;
+}
+
+enum AccountSecurityType {
+  CHANGE_PASSWORD = 0;
+  CHANGE_EMAIL = 1;
+  RESET_TWO_FA = 2;
+  DISABLE_TWO_FA = 3;
+  }
+
+enum KYCStatus {
+  VERIFIRED = 0;
+  FAILLURE = 1;
+}
+
+enum IdentityType {
+  NATIONAL_ID = 0;
+  INTERNATIONAL_PASSPORT = 1;
+}
+
+message KYCResponse {
+  string userID = 1;
+  KYCStatus status = 2;
+  IdentityType identityType = 3;
+  string firstName = 4;
+  string lastName = 5;
+}
+
+enum SourceType {
+  IDENTITY_VERIFED = 0;
+  ORDER_MATCHED = 1;
+}
+
+
+message UserLevelEngineTrigger{
+  string userID = 1;
+  SourceType fromSource = 2;
+
+}

@@ -1,0 +1,6 @@
+src/*/pb/*/*.go
+# srv
+pb/*/*.go
+pb/*/*/*.go
+user_srv
+commission_srv

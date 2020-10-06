@@ -1,0 +1,159 @@
+syntax = "proto3";
+package types;
+
+option go_package = "xtek/exchange/__SERVICE_NAME__/pb/order/types";
+import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
+
+enum UserOrderStatus {
+  ORDER_ADDED = 0;
+  ORDER_FILLED = 1;
+  ORDER_PARTIALLY_FILLED = 2;
+  ORDER_CANCELLED = 3;
+}
+
+message OrderResponse {
+  string pairCoin = 1;
+  int32 side = 2;
+  int64 date = 3;
+  string price = 4;
+  int32 type = 5;
+  string qty = 6;
+  string executeQty = 7;
+  int32 status = 8;
+  string orderID = 9;
+  string filledPercent = 10;
+}
+
+message AdminOrderResponse {
+  string pairCoin = 1;
+  int32 side = 2;
+  int64 date = 3;
+  string price = 4;
+  int32 type = 5;
+  string qty = 6;
+  string executeQty = 7;
+  int32 status = 8;
+  string orderID = 9;
+  string filledPercent = 10;
+  string userEmail = 11;
+}
+
+message Depth {
+    string price = 1;
+    string qty = 2;
+  }
+  
+  message PairCoin {
+    string baseCoin = 1;
+    int32 baseCoinDecimal = 2;
+    string quoteCoin = 3;
+    int32 quoteCoinDecimal = 4;
+    int64 timestamp = 5;
+    bool isActive = 6;
+    PriceFilterOutput priceFilter = 7;
+    QtyFilterOutput qtyFilter = 8;
+    int32 rank = 9;
+    string makeFee = 10;
+    string takeFee = 11;
+    string symbol = 12;
+    string quoteCoinLogo = 13;
+  }
+  
+  message PriceFilterOutput {
+    string minPrice = 1;
+    string maxPrice = 2;
+  }
+  
+  message QtyFilterOutput {
+    string minQty = 1;
+    string maxQty = 2;
+  }
+  
+  message PriceFilter {
+    double minPrice = 1;
+    double maxPrice = 2;
+  }
+  
+  message QtyFilter {
+    double minQty = 1;
+    double maxQty = 2;
+  }
+
+enum OrderStatus {
+  ALL = 0;
+  OPEN = 1;
+  CLOSE = 2;
+}
+
+message Order {
+  enum Status {
+    ORDER_ADDED = 0;
+    ORDER_FILLED = 1;
+    ORDER_PARTIALLY_FILLED = 2;
+    ORDER_CANCELLED = 3;
+    ORDER_FAILURE = 4;
+  }
+
+  enum Sides {
+    BUY = 0;
+    SELL = 1;
+  }
+
+  enum Types {
+    LIMIT = 0;
+    MARKET = 1;
+  }
+
+  string id = 1;
+  string symbol = 2;
+  string quoteCoin = 3;
+  string baseCoin = 4;
+  string makeFee = 5;
+  string takeFee = 6;
+  Sides side = 7;
+  string qty = 8;
+  string executeQty = 9;
+  string pricePoint = 10;
+  string userID = 11;
+  Status status = 12;
+  Types type = 13;
+
+  google.protobuf.Timestamp createdAt = 14;
+  google.protobuf.Timestamp updatedAt = 15;
+}
+
+message OrderMatchingEngineResponse {
+  
+  Order.Status status = 1;
+  OrderMatches matches = 2;
+  Order order = 3;
+}
+
+message OrderMatches {
+  repeated Order makerOrders = 1;
+  Order takerOrder = 2;
+  repeated Trade trades = 3;
+}
+
+message Trade {
+  string id = 1;
+  string takerID = 2;
+  string makerID = 3;
+  string symbol = 4;
+  string baseCoin = 5;
+  string quoteCoin = 6;
+  string makerOrderID = 7;
+  string takerOrderID = 8;
+  string pricePoint = 9;
+  string amount = 10;
+  bool isBuyerMaker = 11;
+
+  enum Status {
+    PENDING = 0;
+    SUCCESS = 1;
+    FAILURE = 2;
+  }
+  Status status = 12;
+}
+

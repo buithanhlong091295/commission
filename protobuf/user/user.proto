@@ -1,0 +1,244 @@
+syntax = "proto3";
+package user;
+option go_package = "xtek/exchange/__SERVICE_NAME__/pb/user";
+
+import "google/api/annotations.proto";
+import "user/dto/user.proto";
+import "user/dto/admin.proto";
+import "user/dto/internal.proto";
+import "user/dto/thirdparty.proto";
+import "google/protobuf/empty.proto";
+
+service UserSiteService {
+  rpc Login(dto.LoginRequest) returns (dto.LoginResponse) {
+    option (google.api.http) = {
+      post : "/v1/auth/login",
+      body : "*"
+    };
+  }
+
+  rpc LoginConfirm(dto.LoginConfirmRequest) returns (dto.LoginConfirmResponse) {
+    option (google.api.http) = {
+      post : "/v1/auth/login/confirm",
+      body : "*"
+    };
+  }
+
+  rpc SendEmailCodeForAuth(dto.SendEmailCodeForAuthRequest)
+      returns (dto.Empty) {
+    option (google.api.http) = {
+      post : "/v1/auth/verify-code/email/send",
+      body : "*"
+    };
+  }
+
+  rpc Register(dto.RegisterRequest) returns (dto.RegisterResponse) {
+    option (google.api.http) = {
+      post : "/v1/auth/register",
+      body : "*"
+    };
+  }
+  rpc ConfirmVerifyEmailForRegister(dto.ConfirmVerifyEmailForRegisterRequest)
+      returns (dto.ConfirmVerifyEmailForRegisterResponse) {
+    option (google.api.http) = {
+      post : "/v1/auth/register/confirm",
+      body : "*"
+    };
+  }
+  rpc ResendVerifyEmailForRegister(dto.ResendVerifyEmailForRegisterRequest)
+      returns (dto.ResendVerifyEmailForRegisterResponse) {
+    option (google.api.http) = {
+      post : "/v1/auth/register/resend",
+      body : "*"
+    };
+  }
+  rpc Logout(dto.Empty) returns (dto.LogoutResponse) {
+    option (google.api.http) = {
+      post : "/v1/auth/logout",
+      body : "*"
+    };
+  }
+  rpc Generate2Fa(dto.Empty) returns (dto.Generate2FaResponse) {
+    option (google.api.http) = {
+      post : "/v1/auth/2fa/generate",
+      body : "*"
+    };
+  }
+  rpc ConfirmGenerate2Fa(dto.ConfirmGenerateTwoFaRequest)
+      returns (dto.ConfirmGenerateTwoFaRespone) {
+    option (google.api.http) = {
+      post : "/v1/auth/2fa/confirm-generate",
+      body : "*"
+    };
+  }
+  rpc ChangePassword(dto.ChangePasswordRequest)
+      returns (dto.ChangePasswordResponse) {
+    option (google.api.http) = {
+      post : "/v1/auth/change-password",
+      body : "*"
+    };
+  }
+  rpc RequestForgotPassword(dto.RequestForgotPasswordRequest)
+      returns (dto.RequestForgotPasswordResponse) {
+    option (google.api.http) = {
+      post : "/v1/auth/forgot-password",
+      body : "*"
+    };
+  }
+  rpc ConfirmForgotPassword(dto.ConfirmForgotPasswordRequest)
+      returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post : "/v1/auth/confirm-forgot-password",
+      body : "*"
+    };
+  }
+  rpc Verify2Fa(dto.VerifyTwoFaRequest) returns (dto.VerifyTwoFaRespone) {
+    option (google.api.http) = {
+      post : "/v1/auth/2fa/verify",
+      body : "*"
+    };
+  }
+  rpc RequestForgotTwoFa(dto.ForgotTwoFaRequest)
+      returns (dto.ForgotTwoFaRespone) {
+    option (google.api.http) = {
+      post : "/v1/auth/2fa/forgot",
+      body : "*"
+    };
+  }
+  rpc ConfirmForgotTwoFa(dto.ConfirmForgotTwoFaRequest)
+      returns (dto.ConfirmForgotTwoFaRespone) {
+    option (google.api.http) = {
+      post : "/v1/auth/2fa/forgot/confirm",
+      body : "*"
+    };
+  }
+  rpc DisableTwoFa(dto.DisableTwoFaRequest) returns (dto.DisableTwoFaRespone) {
+    option (google.api.http) = {
+      post : "/v1/auth/2fa/disable",
+      body : "*"
+    };
+  }
+  rpc GetUserByToken(dto.Empty) returns (dto.GetUserByTokenResponse) {
+    option (google.api.http).get = "/v1/users/me";
+  }
+  rpc ConfirmEmailForNewIP(dto.ConfirmEmailForNewIPRequest)
+      returns (dto.ConfirmEmailForNewIPResponse) {
+    option (google.api.http) = {
+      post : "/v1/auth/login/confirm-new-ip",
+      body : "*"
+    };
+  }
+  rpc GetUserLoginHistories(dto.GetUserLoginHistoriesRequest)
+      returns (dto.GetUserLoginHistoriesResponse) {
+    option (google.api.http).get = "/v1/login-histories";
+  }
+  rpc LogoutBySession(dto.LogoutBySessionRequest)
+      returns (dto.LogoutBySessionResponse) {
+    option (google.api.http) = {
+      post : "/v1/auth/logout-sessions",
+      body : "*"
+    };
+  }
+  rpc GetInfoLoginHistoriesOfUser(dto.Empty)
+      returns (dto.GetInfoLoginHistoriesOfUserResponse) {
+    option (google.api.http).get = "/v1/users/login-histories/info";
+  }
+  rpc GetUserDevice(dto.Empty) returns (dto.GetUserDeviceResponse) {
+    option (google.api.http).get = "/v1/users/user-device";
+  }
+  rpc GetUserDevicesHistory(dto.GetUserDevicesHistoryRequest)
+      returns (dto.GetUserDevicesHistoryResponse) {
+    option (google.api.http).get = "/v1/users/user-devices";
+  }
+  rpc RequestChangeEmail(dto.Empty) returns (dto.RequestChangeEmailResponse) {
+    option (google.api.http).get = "/v1/users/change-email";
+  }
+  rpc ConfirmChangeEmailByOldEmail(dto.ConfirmChangeEmailByOldEmailRequest)
+      returns (dto.ConfirmChangeEmailByOldEmailResponse) {
+    option (google.api.http).get = "/v1/users/change-email/confirm";
+  }
+  rpc ConfirmChangeEmailByNewEmail(dto.ConfirmChangeEmailByNewEmailRequest)
+      returns (dto.ConfirmChangeEmailByNewEmailResponse) {
+    option (google.api.http).get = "/v1/users/change-email/new-email-confirm";
+  }
+  rpc GetUserVerificationTwoLayerList(
+      dto.GetUserVerificationTwoLayerListRequest)
+      returns (dto.GetUserVerificationTwoLayerListResponse) {
+    option (google.api.http).get = "/v1/auth/verification-two-check-list";
+  }
+  rpc GenerateUserAddressForAllUsers(dto.GenerateUserAddressForAllUsersRequest)
+      returns (dto.GenerateUserAddressForAllUsersResponse) {
+    option (google.api.http) = {
+      post : "/v1/auth/user/addresses/generate",
+      body : "*"
+    };
+  }
+  rpc CheckUserKyc(google.protobuf.Empty)
+      returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post : "/v1/users/kyc/check",
+      body : "*"
+    };
+  }
+}
+
+service AdminSiteService {
+  rpc GetAllUsers(dto.GetAllUsersRequest) returns (dto.GetAllUsersResponse) {
+    option (google.api.http).get = "/v1/admin/users";
+  }
+  rpc SearchUserWithEmail(dto.SearchUserWithEmailRequest)
+      returns (dto.SearchUserWithEmailResponse) {
+    option (google.api.http).get = "/v1/users/search/{email}";
+  }
+  rpc UpdateUserStatus(dto.UpdateUserStatusRequest)
+      returns (dto.UpdateUserStatusRespone) {
+    option (google.api.http) = {
+      put : "/v1/users/status",
+      body : "*"
+    };
+  }
+}
+
+service InternalSiteService {
+  rpc GetUserByID(dto.GetUserByIDRequest) returns (dto.GetUserByIDResponse) {
+    option (google.api.http).get = "/v1/users/{userID}";
+  }
+  rpc IsAllowTradeByUserID(dto.IsAllowTradeByUserIDRequest)
+      returns (dto.IsAllowTradeByUserIDResponse) {
+    option (google.api.http).get = "/v1/users/isAllowTrade";
+  }
+  rpc SetUserPendingIndentification(dto.SetUserPendingIndentificationRequest)
+      returns (dto.SetUserPendingIndentificationRespone) {
+    option (google.api.http) = {
+      post : "/v1/users/identification/pending",
+      body : "*"
+    };
+  }
+  rpc ConfirmUserIdentification(dto.ConfirmUserIdentificationRequest)
+      returns (dto.ConfirmUserIdentificationRespone) {
+    option (google.api.http) = {
+      post : "/v1/users/identification/confirm",
+      body : "*"
+    };
+  }
+  rpc GetUserEmailByID(dto.GetUserEmailByIDRequest)
+      returns (dto.GetUserEmailByIDResponse) {
+    option (google.api.http).get = "/v1/users/getEmail/{userID}";
+  }
+
+  rpc ValidateGoogleVerifyCode(dto.ValidateGoogleVerifyCodeRequest)
+      returns (google.protobuf.Empty);
+  rpc GetUserVerificationTwoLayerList(
+      dto.GetUserVerificationTwoLayerListRequest)
+      returns (dto.GetUserVerificationTwoLayerListResponse);
+}
+
+service ThirdPartySiteService {
+  rpc ReceiveKYCWebhook(dto.ReceiveKYCWebhookRequest)
+      returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post : "/v1/kyc/webhook/{webhookKey}",
+      body : "*"
+    };
+  }
+}

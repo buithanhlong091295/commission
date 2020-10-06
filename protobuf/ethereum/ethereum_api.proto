@@ -1,0 +1,10 @@
+syntax = "proto3";
+package ethereum;
+option go_package = "xtek/exchange/__SERVICE_NAME__/pb/ethereum";
+
+import "ethereum/dto/internal.proto";
+
+service InternalSiteService {
+    rpc GetNewAddress(dto.GetNewAddressRequest) returns (dto.GetNewAddressResponse);
+    rpc SendToAddress(dto.SendToAddressRequest) returns (dto.SendToAddressResponse);
+}

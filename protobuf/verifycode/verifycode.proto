@@ -1,0 +1,25 @@
+syntax = "proto3";
+package verifycode;
+
+option go_package = "xtek/exchange/__SERVICE_NAME__/pb/verifycode";
+
+import "google/api/annotations.proto";
+import "verifycode/dto/internal.proto";
+import "verifycode/dto/user.proto";
+import "google/protobuf/empty.proto";
+
+service InternalSiteService {
+  rpc CreateVerifyCode(dto.CreateVerifyCodeRequest) returns (dto.CreateVerifyCodeResponse){
+    option (google.api.http) = { post: "/v1/verifyCode/create", body: "*" };
+  }
+  rpc ConfirmVerifyCode(dto.ConfirmVerifyCodeRequest) returns (dto.ConfirmVerifyCodeResponse){
+    option (google.api.http) = { post: "/v1/verifyCode/confirm", body: "*" };
+  }
+  rpc ValidateEmailVerifyCode(dto.ValidateEmailVerifyCodeRequest) returns (google.protobuf.Empty);
+}
+
+service UserSiteService {
+  rpc SendEmailVerifyCode(dto.SendEmailVerifyCodeRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = { post: "/v1/verify-code/email/send", body: "*" };
+  }
+}

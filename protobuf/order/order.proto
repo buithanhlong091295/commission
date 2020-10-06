@@ -1,0 +1,55 @@
+syntax = "proto3";
+package order;
+option go_package = "xtek/exchange/__SERVICE_NAME__/pb/order";
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+import "order/dto/user.proto";
+import "order/dto/admin.proto";
+import "order/dto/internal.proto";
+
+service UserSiteService {
+  rpc GetOrderHistories (dto.GetOrderHistoriesRequest) returns (dto.GetOrderHistoriesResponse){
+      option (google.api.http).get = "/v1/order/histories";
+  }
+  rpc CreateOrderLimit (dto.CreateOrderLimitRequest) returns (dto.CreateOrderResponse){
+    option (google.api.http) = { post :"/v1/order/create-limit", body :"*"};
+  }
+  rpc PlaceOrder (dto.PlaceOrderRequest) returns (google.protobuf.Empty){
+    option (google.api.http) = { post :"/v1/order/place", body :"*"};
+  }
+  rpc CancelOrder (dto.CancelOrderRequest) returns (dto.CancelOrderResponse){
+    option (google.api.http) = { post :"/v1/order/cancel/{id}", body :"*"};
+  }
+  rpc GetDepthByPairCoin(dto.GetDepthByPairCoinRequest) returns (dto.GetDepthByPairCoinResponse) {
+    option (google.api.http).get = "/v1/order/depth";
+  }
+  rpc GetInfoOfListPairCoin (dto.Empty) returns (dto.GetInfoOfListPairCoinResponse){
+    option (google.api.http).get = "/v1/order/decimal";
+  }
+}
+
+service AdminSiteService {
+  rpc GetUserOrderHistories (dto.GetUserOrderHistoriesRequest) returns (dto.GetUserOrderHistoriesResponse){
+    option (google.api.http).get = "/v1/order/admin/histories";
+  }
+    rpc GetOrderHistoriesForAdmin (dto.GetOrderHistoriesForAdminRequest) returns (dto.GetOrderHistoriesForAdminResponse){
+    option (google.api.http).get = "/v1/order/admin/histories/all";
+  }
+}
+
+service InternalSiteService {
+  rpc GetTotalAmountInOrderByCoin(dto.GetTotalAmountInOrderByCoinRequest) returns (dto.GetTotalAmountInOrderByCoinResponse) {
+    option (google.api.http).get = "/v1/order/totalAmountInOrder/{coin}";
+  }
+  rpc GetPairCoin (dto.GetPairCoinRequest) returns (dto.GetPairCoinResponse){
+    option (google.api.http).get = "/v1/order/decimal";
+  }
+  rpc GetInfoOfListPairCoin (dto.Empty) returns (dto.GetInfoOfListPairCoinResponse){
+    option (google.api.http).get = "/v1/order/decimal";
+  }
+  rpc GetTotalAmountInOrderByUserID(dto.GetTotalAmountInOrderByUserIDRequest) returns (dto.GetTotalAmountInOrderByUserIDResponse) {
+    option (google.api.http).get = "/v1/totalAmountInOrder";
+  }
+}

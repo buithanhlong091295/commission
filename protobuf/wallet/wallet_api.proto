@@ -1,0 +1,156 @@
+syntax = "proto3";
+package wallet;
+option go_package = "xtek/exchange/__SERVICE_NAME__/pb/wallet";
+
+import "google/api/annotations.proto";
+import "wallet/dto/internal.proto";
+import "wallet/dto/admin.proto";
+import "wallet/dto/user.proto";
+import "google/protobuf/empty.proto";
+
+service InternalSiteService {
+  rpc CreateBalanceDefault(dto.CreateBalanceDefaultRequest)
+      returns (dto.CreateBalanceDefaultResponse);
+
+  rpc CreateCoin(dto.CreateCoinRequest) returns (dto.CreateCoinResponse);
+
+  rpc HandleDepositWallet(dto.HandleDepositnWithWalletRequest)
+      returns (dto.HandleDepositnWithWalletResponse);
+
+  rpc HandleWithdrawalWallet(dto.HandleDepositnWithdrawalWalletRequest)
+      returns (dto.HandleDepositnWithdrawalWalletResponse);
+
+  rpc ValidateAvailableBalance(dto.ValidateAvailableBalanceRequest)
+      returns (dto.ValidateAvailableBalanceResponse);
+
+  rpc ValidateBalance(dto.ValidateBalanceRequest)
+      returns (dto.ValidateBalanceResponse);
+
+  rpc GetBalanceByUserIDnCoin(dto.GetBalanceByUserIDnCoinRequest)
+      returns (dto.GetBalanceByUserIDnCoinResponse);
+
+  rpc GetBalanceByUserIDnCoinnType(dto.GetBalanceByUserIDnCoinnTypeRequest)
+      returns (dto.GetBalanceByUserIDnCoinnTypeResponse);
+
+  rpc GetBalancesByUserIDNType(dto.GetBalancesByUserIDNTypeRequest)
+      returns (dto.GetBalancesByUserIDNTypeResponse);
+
+  rpc GenerateUserAddress(dto.GenerateUserAddressRequest)
+      returns (google.protobuf.Empty);
+
+  rpc GetCoins(google.protobuf.Empty) returns (dto.GetCoinsResponse);
+}
+
+service AdminSiteService {
+  rpc GetListWithdrawal(dto.GetListWithdrawalRequest)
+      returns (dto.GetListWithdrawalResponse) {
+    option (google.api.http).get = "/v1/wallet/admin/withdrawal";
+  }
+  rpc GetUserTransactionHistories(dto.GetUserTransactionHistoriesRequest)
+      returns (dto.GetUserTransactionHistoriesResponse) {
+    option (google.api.http).get = "/v1/wallet/admin/transaction/user";
+  }
+  rpc UpdateTransactionStatus(dto.UpdateTransactionStatusRequest)
+      returns (dto.UpdateTransactionStatusResponse) {
+    option (google.api.http) = {
+      post : "/v1/wallet/admin/transaction/update",
+      body : "*"
+    };
+  }
+  rpc GetBalancesByUserID(dto.GetBalancesByUserIDRequest)
+      returns (dto.GetBalancesByUserIDResponse) {
+    option (google.api.http).get = "/v1/wallet/admin/balances/{userID}";
+  }
+  rpc ConfirmUserWithdraw(dto.ConfirmUserWithdrawRequest)
+      returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post : "/v1/wallet/admin/transaction/{id}/{status}",
+      body : "*"
+    };
+  }
+}
+
+service UserSiteService {
+  rpc GetBalancesByToken(google.protobuf.Empty)
+      returns (dto.GetBalancesByTokenResponse) {
+    option (google.api.http).get = "/v1/wallet/balances";
+  }
+
+  rpc GetC2CBalances(google.protobuf.Empty)
+      returns (dto.GetC2CBalancesResponse) {
+    option (google.api.http).get = "/v1/wallet/balances/c2c";
+  }
+
+  rpc GetTransactionByTxID(dto.GetTransactionByTxIDRequest)
+      returns (dto.GetTransactionByTxIDResponse) {
+    option (google.api.http).get = "/v1/wallet/transaction/{txID}";
+  }
+  rpc GetUserEstimatedCoinToBTC(google.protobuf.Empty)
+      returns (dto.GetUserEstimatedCoinToBTCResponse) {
+    option (google.api.http).get = "/v1/wallet/estimatedToBTC";
+  }
+  rpc GetTransactionHistoriesByTokenNCoin(
+      dto.GetTransactionHistoriesByTokenNCoinRequest)
+      returns (dto.GetTransactionHistoriesByTokenNCoinResponse) {
+    option (google.api.http).get = "/v1/wallet/histories";
+  }
+  rpc GetBalanceByCoin(dto.GetBalanceByCoinRequest)
+      returns (dto.GetBalanceByCoinResponse) {
+    option (google.api.http).get = "/v1/wallet/balance";
+  }
+  rpc GetCoins(google.protobuf.Empty) returns (dto.GetCoinResponse) {
+    option (google.api.http).get = "/v1/wallet/coins";
+  }
+  rpc CreateRequestWithdrawal(dto.CreateRequestWithdrawalRequest)
+      returns (dto.CreateRequestWithdrawalResponse) {
+    option (google.api.http) = {
+      post : "/v1/wallet/withdrawal/create",
+      body : "*"
+    };
+  }
+  rpc CancelWithdrawal(dto.CancelWithdrawalRequest)
+      returns (dto.CancelWithdrawalResponse) {
+    option (google.api.http) = {
+      post : "/v1/wallet/withdrawal/cancel/{id}",
+      body : "*"
+    };
+  }
+  rpc ConfirmRequestWithdrawal(dto.ConfirmRequestWithdrawalRequest)
+      returns (dto.ConfirmRequestWithdrawalResponse) {
+    option (google.api.http) = {
+      post : "/v1/wallet/withdrawal/confirm/{id}",
+      body : "*"
+    };
+  }
+  rpc GetUserTotalWithdrawal(google.protobuf.Empty)
+      returns (dto.GetUserTotalWithdrawalResponse) {
+    option (google.api.http).get = "/v1/wallet/withdrawal/total";
+  }
+  rpc UserWithdrawPreCheck(dto.UserWithdrawPreCheckRequest)
+      returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post : "/v1/wallet/withdrawal/pre-check",
+      body : "*"
+    };
+  }
+  rpc UserWithdrawApply(dto.UserWithdrawApplyRequest)
+      returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post : "/v1/wallet/withdrawal/apply",
+      body : "*"
+    };
+  }
+
+  rpc GetUserWithdrawInfo(dto.GetUserWithdrawInfoRequest)
+      returns (dto.GetUserWithdrawInfoResponse) {
+    option (google.api.http).get = "/v1/wallet/withdrawal/info";
+  }
+
+  rpc TransferBalanceToAnotherWallet(dto.TransferBalanceToAnotherWalletRequest)
+      returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post : "/v1/wallet/transfer",
+      body : "*"
+    };
+  }
+}
