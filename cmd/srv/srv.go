@@ -27,6 +27,7 @@ import (
 	"github.com/uber/jaeger-lib/metrics"
 	"github.com/urfave/cli"
 	"google.golang.org/grpc"
+	pbHealth "google.golang.org/grpc/health/grpc_health_v1"
 )
 
 // ConnectMongo
@@ -211,13 +212,13 @@ func (s *srv) loadGRPCServer() error {
 		return err
 	}
 
-	// healthCheck := grpcDelivery.NewHealthService()
+	healthCheck := grpcDelivery.NewHealthService()
 
 	grpcServer := server.NewGRPCServer(s.logFactory, s.cfg.ServiceName).WithHandler(func(s *grpc.Server) {
 		pbCom.RegisterUserSiteServiceServer(s, userSite)
 		// pbWallet.RegisterAdminSiteServiceServer(s, adminSite)
 		// pbWallet.RegisterInternalSiteServiceServer(s, internalSite)
-		// pbHealth.RegisterHealthServer(s, healthCheck)
+		pbHealth.RegisterHealthServer(s, healthCheck)
 	}).WithHost(s.cfg.GRPC.Host).WithPort(s.cfg.GRPC.Port).WithConsul(consulRegistrar).WithTracer(s.tracer)
 
 	if s.cfg.PrometheusPort != "" {

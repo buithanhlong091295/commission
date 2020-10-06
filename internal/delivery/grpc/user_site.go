@@ -71,30 +71,34 @@ func (s *userSiteDelivery) GetUserCommissions(ctx context.Context, req *pbDTO.Ge
 
 func (s *userSiteDelivery) GetMembersByUserID(ctx context.Context, req *pbDTO.GetMembersByUserIDRequest) (*pbDTO.GetMembersByUserIDResponse, error) {
 
-	var listings = []*pbTypes.User{
-		&pbTypes.User{
+	var listings = []*pbTypes.Member{
+		&pbTypes.Member{
 			UserID:     "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
 			Email:      "abc@gmail.com",
 			Earned:     "12345",
 			NumMembers: 123,
+			SponsorID:  "ddddddddddddddddddddddddddddd",
 		},
-		&pbTypes.User{
+		&pbTypes.Member{
 			UserID:     "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
 			Email:      "abc@gmail.com",
 			Earned:     "12345",
 			NumMembers: 123,
+			SponsorID:  "ddddddddddddddddddddddddddddd",
 		},
-		&pbTypes.User{
+		&pbTypes.Member{
 			UserID:     "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
 			Email:      "abc@gmail.com",
 			Earned:     "12345",
 			NumMembers: 123,
+			SponsorID:  "ddddddddddddddddddddddddddddd",
 		},
-		&pbTypes.User{
+		&pbTypes.Member{
 			UserID:     "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
 			Email:      "abc@gmail.com",
 			Earned:     "12345",
 			NumMembers: 123,
+			SponsorID:  "ddddddddddddddddddddddddddddd",
 		},
 	}
 
