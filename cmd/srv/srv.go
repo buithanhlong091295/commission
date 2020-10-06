@@ -13,13 +13,20 @@ import (
 
 	grpcDelivery "xtek/exchange/commission/internal/delivery/grpc"
 
+	grpc_dialer "github.com/richard-xtek/go-grpc-micro-kit/grpc-dialer"
+
 	"github.com/opentracing/opentracing-go"
 
 	pbCom "xtek/exchange/commission/pb/commission"
+	pbUser "xtek/exchange/commission/pb/user"
 
 	"github.com/richard-xtek/go-grpc-micro-kit/server"
 
 	"xtek/exchange/commission/internal/config"
+
+	"xtek/exchange/commission/internal/domain/commission"
+
+	dCom "xtek/exchange/commission/internal/domain/commission"
 
 	consul "github.com/hashicorp/consul/api"
 	"github.com/richard-xtek/go-grpc-micro-kit/prometheus"
@@ -51,6 +58,8 @@ type srv struct {
 
 	logFactory log.Factory
 
+	comDomain *commission.CommissionDomain
+
 	// define for stores
 
 	stopChan chan struct{}
@@ -66,7 +75,7 @@ type srv struct {
 	// coinBaseClient   pbCoin.InternalSiteServiceClient
 	// cryptoClient     pbCrypto.InternalSiteServiceClient
 	// orderClient      pbOrder.InternalSiteServiceClient
-	// userClient       pbUser.InternalSiteServiceClient
+	userClient pbUser.InternalSiteServiceClient
 	// verifyCodeClient pbVerifyCode.InternalSiteServiceClient
 	// lendingClient    pbLending.InternalSiteServiceClient
 
@@ -182,19 +191,19 @@ func (s *srv) loadCrons() error {
 }
 
 func (s *srv) loadGRPCClient() error {
-	// clientDialer := grpc_dialer.NewGrpcClientDialer(s.consul, s.tracer, s.logFactory)
+	clientDialer := grpc_dialer.NewGrpcClientDialer(s.consul, s.tracer, s.logFactory)
 
-	// lendingConn, err := clientDialer.ConnWithServiceName(s.cfg.LendingService)
-	// if err != nil {
-	// 	return err
-	// }
+	userConn, err := clientDialer.ConnWithServiceName(s.cfg.UserService)
+	if err != nil {
+		return err
+	}
 
-	// s.lendingClient = pbLending.NewInternalSiteServiceClient(lendingConn)
+	s.userClient = pbUser.NewInternalSiteServiceClient(userConn)
 	return nil
 }
 
 func (s *srv) loadDomains() error {
-	// s.transferDomain = dTransfer.New(s.balanceStore, s.coinStore, s.transactionStore, s.transferHistoryStore, s.balanceChangeLogStore, s.orderClient, s.lendingClient, s.publisher)
+	s.comDomain = dCom.NewCommissionDomain(s.userClient)
 
 	return nil
 }
@@ -207,7 +216,7 @@ func (s *srv) loadGRPCServer() error {
 		[]string{"Commission"},
 	)
 
-	userSite, err := grpcDelivery.NewUserSiteDelivery()
+	userSite, err := grpcDelivery.NewUserSiteDelivery(s.comDomain)
 	if err != nil {
 		return err
 	}

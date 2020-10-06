@@ -2,6 +2,7 @@ package grpc
 
 import (
 	"context"
+	"xtek/exchange/commission/internal/domain/commission"
 	pb "xtek/exchange/commission/pb/commission"
 	pbDTO "xtek/exchange/commission/pb/commission/dto"
 	pbTypes "xtek/exchange/commission/pb/commission/types"
@@ -9,11 +10,12 @@ import (
 )
 
 // NewUserSiteDelivery ...
-func NewUserSiteDelivery() (pb.UserSiteServiceServer, error) {
-	return &userSiteDelivery{}, nil
+func NewUserSiteDelivery(comDomain *commission.CommissionDomain) (pb.UserSiteServiceServer, error) {
+	return &userSiteDelivery{comDomain: comDomain}, nil
 }
 
 type userSiteDelivery struct {
+	comDomain *commission.CommissionDomain
 }
 
 func (s *userSiteDelivery) GetUserCommissions(ctx context.Context, req *pbDTO.GetUserCommissionsRequest) (*pbDTO.GetUserCommissionsResponse, error) {
@@ -70,41 +72,9 @@ func (s *userSiteDelivery) GetUserCommissions(ctx context.Context, req *pbDTO.Ge
 }
 
 func (s *userSiteDelivery) GetMembersByUserID(ctx context.Context, req *pbDTO.GetMembersByUserIDRequest) (*pbDTO.GetMembersByUserIDResponse, error) {
-
-	var listings = []*pbTypes.Member{
-		&pbTypes.Member{
-			UserID:     "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-			Email:      "abc1@gmail.com",
-			Earned:     "12345",
-			NumMembers: 123,
-			SponsorID:  "zzzzzzzzzzzzzzzzzzzzzzzzzzzz",
-		},
-		&pbTypes.Member{
-			UserID:     "bbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-			Email:      "abc2@gmail.com",
-			Earned:     "12345",
-			NumMembers: 123,
-			SponsorID:  "zzzzzzzzzzzzzzzzzzzzzzzzzzzz",
-		},
-		&pbTypes.Member{
-			UserID:     "cccccccccccccccccccccccccccccc",
-			Email:      "abc3@gmail.com",
-			Earned:     "12345",
-			NumMembers: 123,
-			SponsorID:  "zzzzzzzzzzzzzzzzzzzzzzzzzzzz",
-		},
-		&pbTypes.Member{
-			UserID:     "dddddddddddddddddddddddddddddd",
-			Email:      "abc4@gmail.com",
-			Earned:     "12345",
-			NumMembers: 123,
-			SponsorID:  "zzzzzzzzzzzzzzzzzzzzzzzzzzzz",
-		},
+	res, err := s.comDomain.GetMembersBySponsorID(ctx, req)
+	if err != nil {
+		return nil, err
 	}
-
-	res := &pbDTO.GetMembersByUserIDResponse{
-		Users: listings,
-	}
-
 	return res, nil
 }
