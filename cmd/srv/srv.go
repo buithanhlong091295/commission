@@ -3,9 +3,12 @@ package main
 import (
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
+	"xtek/exchange/commission/internal/events"
 	"xtek/exchange/commission/internal/stores"
 
+	"github.com/richard-xtek/go-grpc-micro-kit/kafka"
 	"github.com/richard-xtek/go-grpc-micro-kit/log"
 	"go.uber.org/zap"
 	"gopkg.in/mgo.v2"
@@ -83,7 +86,7 @@ type srv struct {
 	// verifyCodeClient pbVerifyCode.InternalSiteServiceClient
 	// lendingClient    pbLending.InternalSiteServiceClient
 
-	// publisher *events.Publisher
+	publisher *events.Publisher
 }
 
 func (s *srv) start(ctx *cli.Context) error {
@@ -165,16 +168,16 @@ func (s *srv) prepare(ctx *cli.Context) (err error) {
 }
 
 func (s *srv) loadPublisher() error {
-	// publishCfg := kafka.PublisherConfig{
-	// 	Brokers:   strings.Split(s.cfg.KafkaBrokers, ","),
-	// 	Marshaler: kafka.DefaultMarshaler{},
-	// }
+	publishCfg := kafka.PublisherConfig{
+		Brokers:   strings.Split(s.cfg.KafkaBrokers, ","),
+		Marshaler: kafka.DefaultMarshaler{},
+	}
 
-	// publisher, err := kafka.NewPublisher(publishCfg, s.logFactory)
-	// if err != nil {
-	// 	return err
-	// }
-	// s.publisher = events.NewPublisher(publisher)
+	publisher, err := kafka.NewPublisher(publishCfg, s.logFactory)
+	if err != nil {
+		return err
+	}
+	s.publisher = events.NewPublisher(publisher)
 	return nil
 }
 
