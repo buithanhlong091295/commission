@@ -70,7 +70,7 @@ var (
 	ServiceNameFlag = cli.StringFlag{
 		Name:   "name",
 		Usage:  "Service name",
-		EnvVar: "USER_SERVICE_NAME",
+		EnvVar: "COMMISSION_SERVICE_NAME",
 		Value:  "Commission",
 	}
 	JaegerAddressFlag = cli.StringFlag{
