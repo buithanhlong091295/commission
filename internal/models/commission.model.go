@@ -23,10 +23,12 @@ var (
 type CommissionStatus int
 
 var (
-	// CompletedStatus ...
-	CompletedStatus CommissionStatus = 0
-	// FailStatus ...
-	FailStatus CommissionStatus = 1
+	// CommissionCompletedStatus ...
+	CommissionCompletedStatus CommissionStatus = 0
+	// CommssionFailStatus ...
+	CommssionFailStatus CommissionStatus = 1
+	// CommissionFreezedStatus ...
+	CommissionFreezedStatus CommissionStatus = 2
 )
 
 // CommissionHistory ...
@@ -117,10 +119,10 @@ func (b *CommissionHistory) ParseAmountToFloat() float64 {
 
 // GetCompletedStatus ...
 func (b *CommissionHistory) GetCompletedStatus() CommissionStatus {
-	return CompletedStatus
+	return CommissionCompletedStatus
 }
 
 // GetFailStatus ...
 func (b *CommissionHistory) GetFailStatus() CommissionStatus {
-	return FailStatus
+	return CommssionFailStatus
 }

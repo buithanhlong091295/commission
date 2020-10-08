@@ -1,6 +1,8 @@
 package mongo
 
 import (
+	"math/big"
+	"reflect"
 	"time"
 	"xtek/exchange/commission/internal/models"
 
@@ -147,4 +149,42 @@ func (r *CommissionRepo) UpdateByQuery(ID string, query map[string]interface{}) 
 	}
 
 	return nil
+}
+
+// GetTotalAmountByUserIDNCoinNStatus ..
+func (r *CommissionRepo) GetTotalAmountByUserIDNCoinNStatus(coin, userID string, status models.CommissionStatus) (*big.Int, error) {
+	sc := r.session.Copy()
+	defer sc.Close()
+
+	var res []*models.Totals
+	result := reflect.ValueOf(&res).Interface()
+
+	match := bson.M{
+		"receiverID": userID,
+		"status":     status,
+		"coin":       coin,
+	}
+	group := bson.M{
+		"_id": "$coin",
+		"total": bson.M{
+			"$sum": bson.M{
+				"$convert": bson.M{
+					"input": "$amount",
+					"to":    "decimal",
+				},
+			},
+		},
+	}
+	query := []bson.M{
+		bson.M{"$match": match},
+		bson.M{"$group": group},
+	}
+	err := sc.DB(r.dbName).C(r.collectionName).Pipe(query).All(result)
+	if err != nil {
+		return nil, err
+	}
+	if len(res) <= 0 {
+		return big.NewInt(0), nil
+	}
+	return res[0].Total, nil
 }

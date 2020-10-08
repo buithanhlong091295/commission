@@ -14,7 +14,7 @@ import (
 func (c *CommissionDomain) CreateCommissionWithEvent(ctx context.Context, payload *pbLendingTypes.CommissionEvent) error {
 	logger := ctx_logf.Extract(ctx)
 	logFields := []zap.Field{
-		zap.String("func_domain", "CreateCommissionWithSuccessEvent"),
+		zap.String("func_domain", "CreateCommissionWithEvent"),
 	}
 	com := &models.CommissionHistory{
 		Status:     models.CommissionStatus(payload.GetStatus()),

@@ -140,9 +140,9 @@ func (s *srv) prepare(ctx *cli.Context) (err error) {
 		s.logFactory.Bg().Fatal("Mongo register failure", zap.Error(err))
 	}
 
-	// if err := s.loadPublisher(); err != nil {
-	// 	return err
-	// }
+	if err := s.loadPublisher(); err != nil {
+		return err
+	}
 
 	if err := s.loadStores(); err != nil {
 		return err
@@ -228,12 +228,17 @@ func (s *srv) loadGRPCServer() error {
 		return err
 	}
 
+	internalSite, err := grpcDelivery.NewInternalSiteDelivery(s.comDomain)
+	if err != nil {
+		return err
+	}
+
 	healthCheck := grpcDelivery.NewHealthService()
 
 	grpcServer := server.NewGRPCServer(s.logFactory, s.cfg.ServiceName).WithHandler(func(s *grpc.Server) {
 		pbCom.RegisterUserSiteServiceServer(s, userSite)
 		// pbWallet.RegisterAdminSiteServiceServer(s, adminSite)
-		// pbWallet.RegisterInternalSiteServiceServer(s, internalSite)
+		pbCom.RegisterInternalSiteServiceServer(s, internalSite)
 		pbHealth.RegisterHealthServer(s, healthCheck)
 	}).WithHost(s.cfg.GRPC.Host).WithPort(s.cfg.GRPC.Port).WithConsul(consulRegistrar).WithTracer(s.tracer)
 

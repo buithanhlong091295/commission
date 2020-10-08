@@ -1,6 +1,9 @@
 package stores
 
-import "xtek/exchange/commission/internal/models"
+import (
+	"math/big"
+	"xtek/exchange/commission/internal/models"
+)
 
 // CommissionRepo ...
 type CommissionRepo interface {
@@ -11,4 +14,5 @@ type CommissionRepo interface {
 	GetAllWithPaginateNFilter(query map[string]interface{}, limit, page int) ([]*models.CommissionHistory, error)
 	CountByQuery(query map[string]interface{}) (int, error)
 	UpdateByQuery(ID string, query map[string]interface{}) error
+	GetTotalAmountByUserIDNCoinNStatus(coin, userID string, status models.CommissionStatus) (*big.Int, error)
 }
