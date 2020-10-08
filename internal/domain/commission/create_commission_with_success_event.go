@@ -15,7 +15,9 @@ func (c *CommissionDomain) CreateCommissionWithEvent(ctx context.Context, payloa
 	logger := ctx_logf.Extract(ctx)
 	logFields := []zap.Field{
 		zap.String("func_domain", "CreateCommissionWithEvent"),
+		zap.String("receivedID", payload.GetReceiverID()),
 	}
+	logger.Bg().Info("received payload commission event", logFields...)
 	com := &models.CommissionHistory{
 		Status:     models.CommissionStatus(payload.GetStatus()),
 		SenderID:   payload.GetSenderID(),

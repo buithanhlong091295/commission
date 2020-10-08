@@ -100,7 +100,7 @@ func (s *srv) loadKafkaSubscriber() error {
 		return err
 	}
 
-	CommissionSubscriber := events.NewSubscriber(s.logFactory.With(zap.String("subscriber_name", "commission")), kafkaSubscriber, events.CommissionTopic)
+	CommissionSubscriber := events.NewSubscriber(s.logFactory.With(zap.String("subscriber_name", "commission.response")), kafkaSubscriber, events.CommissionTopic)
 	subscriberWorkers.Register(CommissionSubscriber)
 
 	s.registerProcessor(subscriberWorkers)
