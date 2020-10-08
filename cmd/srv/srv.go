@@ -4,6 +4,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"xtek/exchange/commission/internal/stores"
 
 	"github.com/richard-xtek/go-grpc-micro-kit/log"
 	"go.uber.org/zap"
@@ -27,6 +28,8 @@ import (
 	"xtek/exchange/commission/internal/domain/commission"
 
 	dCom "xtek/exchange/commission/internal/domain/commission"
+
+	"xtek/exchange/commission/internal/stores/mongo"
 
 	consul "github.com/hashicorp/consul/api"
 	"github.com/richard-xtek/go-grpc-micro-kit/prometheus"
@@ -61,6 +64,7 @@ type srv struct {
 	comDomain *commission.CommissionDomain
 
 	// define for stores
+	commissionStores stores.CommissionRepo
 
 	stopChan chan struct{}
 
@@ -175,10 +179,10 @@ func (s *srv) loadPublisher() error {
 }
 
 func (s *srv) loadStores() (err error) {
-	// s.balanceChangeLogStore, err = mongo.NewBalanceChangeLogRepo(s.cfg.Mongo.Database, s.mgoSession)
-	// if err != nil {
-	// 	return err
-	// }
+	s.commissionStores, err = mongo.NewCommissionRepo(s.cfg.Mongo.Database, s.mgoSession)
+	if err != nil {
+		return err
+	}
 
 	return
 }
@@ -203,7 +207,7 @@ func (s *srv) loadGRPCClient() error {
 }
 
 func (s *srv) loadDomains() error {
-	s.comDomain = dCom.NewCommissionDomain(s.userClient)
+	s.comDomain = dCom.NewCommissionDomain(s.userClient, s.commissionStores)
 
 	return nil
 }

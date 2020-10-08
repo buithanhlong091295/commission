@@ -1,7 +1,14 @@
 package main
 
 import (
+	"strings"
+
+	"github.com/richard-xtek/go-grpc-micro-kit/kafka"
 	"github.com/richard-xtek/go-grpc-micro-kit/subscriber"
+
+	"xtek/exchange/commission/internal/delivery/msgevent"
+	"xtek/exchange/commission/internal/events"
+	pbLendingTypes "xtek/exchange/commission/pb/lending/types"
 
 	"github.com/richard-xtek/go-grpc-micro-kit/prometheus"
 	"github.com/richard-xtek/go-grpc-micro-kit/registry"
@@ -76,39 +83,25 @@ func (s *srv) prepareEventProcess(ctx *cli.Context) (err error) {
 
 func (s *srv) loadKafkaSubscriber() error {
 	subscriberWorkers := subscriber.GetSubscriberWorker()
-	// eventDelivery := msgevent.New()
+	eventDelivery := msgevent.New(s.comDomain)
 
-	// registry := subscriber.GetHandleRegistry()
+	registry := subscriber.GetHandleRegistry()
 
-	// registry.Register(events.ETTOrderPlaceResponse, eventDelivery.OrderMatchingEngineResponse, &pbOrderTypes.OrderMatchingEngineResponse{})
-	// registry.Register(events.ETTTransactionBitcoinUnConfirmed, eventDelivery.TransactionBitcoinUnconfirmed, &pbWalletTypes.TransactionBitcoin{})
-	// registry.Register(events.ETTTransactionBitcoinConfirmed, eventDelivery.TransactionBitcoinConfirmed, &pbWalletTypes.TransactionBitcoin{})
-	// registry.Register(events.ETTTransactionWithdrawConfirmed, eventDelivery.TransactionWithdrawConfirmed, &pbWalletTypes.TransactionInternal{})
-	// registry.Register(events.ETTAdminApprovalWithdraw, eventDelivery.AdminApprovalWithdraw, &pbWalletTypes.TransactionInternal{})
-	// registry.Register(events.ETTTransactionDepositPending, eventDelivery.TransactionDepositPending, &pbWalletTypes.TransactionDepositEvent{})
-	// registry.Register(events.ETTTransactionDepositCompleted, eventDelivery.TransactionDepositCompleted, &pbWalletTypes.TransactionDepositEvent{})
-	// registry.Register(events.ETTTransferPending, eventDelivery.HandleTransferPending, &pbWalletTypes.Transfer{})
-	// registry.Register(events.ETTContractApplyCheckoutRequestEvent, eventDelivery.LoanContractApplyCheckout, &pbLendingTypes.Contract{})
+	registry.Register(events.ETTSaveCommissionHistory, eventDelivery.CommissionEvent, &pbLendingTypes.CommissionEvent{})
 
-	// subscriberCfg := kafka.SubscriberConfig{
-	// 	Brokers:       strings.Split(s.cfg.KafkaBrokers, ","),
-	// 	Unmarshaler:   kafka.DefaultMarshaler{},
-	// 	ConsumerGroup: "wallet_service",
-	// }
+	subscriberCfg := kafka.SubscriberConfig{
+		Brokers:       strings.Split(s.cfg.KafkaBrokers, ","),
+		Unmarshaler:   kafka.DefaultMarshaler{},
+		ConsumerGroup: "commission_service",
+	}
 
-	// kafkaSubscriber, err := kafka.NewSubscriber(subscriberCfg, s.logFactory)
-	// if err != nil {
-	// 	return err
-	// }
+	kafkaSubscriber, err := kafka.NewSubscriber(subscriberCfg, s.logFactory)
+	if err != nil {
+		return err
+	}
 
-	// walletEngineSubscriber := events.NewSubscriber(s.logFactory.With(zap.String("subscriber_name", "wallet_engine")), kafkaSubscriber, events.WalletEngineTopic)
-	// subscriberWorkers.Register(walletEngineSubscriber)
-
-	// transactionPendingSubscriber := events.NewSubscriber(s.logFactory.With(zap.String("subscriber_name", "transaction_pending")), kafkaSubscriber, events.Topic.TransactionPending())
-	// subscriberWorkers.Register(transactionPendingSubscriber)
-
-	// withdrawApprovalEngineSubscriber := events.NewSubscriber(s.logFactory.With(zap.String("subscriber_name", "withdraw_approval_engine")), kafkaSubscriber, events.WithdrawApprovalEngineTopic)
-	// subscriberWorkers.Register(withdrawApprovalEngineSubscriber)
+	CommissionSubscriber := events.NewSubscriber(s.logFactory.With(zap.String("subscriber_name", "commission")), kafkaSubscriber, events.CommissionTopic)
+	subscriberWorkers.Register(CommissionSubscriber)
 
 	s.registerProcessor(subscriberWorkers)
 	return nil

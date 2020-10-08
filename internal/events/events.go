@@ -1,61 +1,25 @@
 package events
 
-// import (
-// 	"fmt"
+import (
+	"github.com/richard-xtek/go-grpc-micro-kit/kafka"
+)
 
-// 	"github.com/richard-xtek/go-grpc-micro-kit/kafka"
-// )
+//
+const (
+	// ETTCommissionHistory ...
+	ETTSaveCommissionHistory = kafka.EventType("commission.history.save")
+)
 
-// //
-// const (
-// 	// ETTTransactionWithdrawConfirmed ...
-// 	ETTTransactionWithdrawConfirmed = kafka.EventType("transaction.withdraw.confirmed")
-// 	// ETTAdminApprovalWithdraw use when bot publish, admin click approve
-// 	ETTAdminApprovalWithdraw = kafka.EventType("transaction.withdraw.admin.approval")
-// 	// ETTOrderPlaceRequest ...
-// 	ETTOrderPlaceRequest = kafka.EventType("order.place.request")
-// 	// ETTOrderPlaceResponse ...
-// 	ETTOrderPlaceResponse = kafka.EventType("order.place.response")
+// Define topic
+const (
+	CommissionTopic = "commission.response"
+)
 
-// 	// ETTOrderMatchingEngine ...
-// 	ETTOrderMatchingEngine = kafka.EventType("order.engine")
+type kafkaTopic struct {
+}
 
-// 	// ETTTransactionBitcoinUnConfirmed ...
-// 	ETTTransactionBitcoinUnConfirmed = kafka.EventType("transaction.bitcoin.unconfirmed")
-// 	// ETTTransactionBitcoinUnConfirmed ...
-// 	ETTTransactionBitcoinConfirmed = kafka.EventType("transaction.bitcoin.confirmed")
-// 	// ETTSendUserWithdrawSuccess ...
-// 	ETTSendUserWithdrawSuccess = kafka.EventType("contact.email.withdraw.success")
-
-// 	// ETTTransactionDepositPending ...
-// 	ETTTransactionDepositPending = kafka.EventType("transaction.deposit.pending")
-// 	// ETTTransactionDepositCompleted ...
-// 	ETTTransactionDepositCompleted = kafka.EventType("transaction.deposit.completed")
-// 	// ETTTransferPending ...
-// 	ETTTransferPending = kafka.EventType("transfer.pending")
-// 	// ETTContractApplyCheckoutRequestEvent ...
-// 	ETTContractApplyCheckoutRequestEvent = kafka.EventType("contract.apply.checkout.request")
-
-// 	// ETTContractApplyCompletedEvent ...
-// 	ETTContractApplyCompletedEvent = kafka.EventType("contract.apply.completed")
-// 	// ETTContractApplyFailureEvent ...
-// 	ETTContractApplyFailureEvent = kafka.EventType("contract.apply.failure")
-// )
-
-// // Define topic
-// const (
-// 	OrderEngineTopic            = "order.engine"
-// 	OrderEngineResponseTopic    = "order.engine.response"
-// 	WalletEngineTopic           = "wallet.engine"
-// 	WithdrawApprovalEngineTopic = "withdraw.approval.engine"
-// 	ContractResponseTopic       = "contract.response"
-// )
-
-// type kafkaTopic struct {
-// }
-
-// // Topic ...
-// var Topic kafkaTopic
+// Topic ...
+var Topic kafkaTopic
 
 // func (t kafkaTopic) Kline(symbol string) string {
 // 	return fmt.Sprintf("market.%s.kline.evt", symbol)

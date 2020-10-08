@@ -290,6 +290,7 @@ github.com/richard-xtek/go-grpc-micro-kit v1.0.9 h1:gSqqj87XTzzN/wzUa02TGPwYD4ZH
 github.com/richard-xtek/go-grpc-micro-kit v1.0.9/go.mod h1:ZplMqIRkkYJg/x9z0GxHVA8GVgPE1sdxx3vvdJ1XYWg=
 github.com/richard-xtek/go-grpc-micro-kit v1.1.0 h1:XzBFEvdgh1OaQOC18KQiTPdwRyYE3Id3r+ypfjnX7js=
 github.com/richard-xtek/go-grpc-micro-kit v1.1.0/go.mod h1:ZplMqIRkkYJg/x9z0GxHVA8GVgPE1sdxx3vvdJ1XYWg=
+github.com/richard-xtek/go-grpc-micro-kit v1.1.1 h1:pp7XD/J6QP2B2cft6hM+Qw+EuwEy1b1Iz2jlkiu2Ig4=
 github.com/rogpeppe/fastuuid v1.2.0/go.mod h1:jVj6XXZzXRy/MSR5jhDC/2q6DgLz+nrA6LYCDYWNEvQ=
 github.com/rogpeppe/go-internal v1.1.0/go.mod h1:M8bDsm7K2OlrFYOpmOWEs/qY81heoFRclV5y23lUDJ4=
 github.com/rogpeppe/go-internal v1.2.2/go.mod h1:M8bDsm7K2OlrFYOpmOWEs/qY81heoFRclV5y23lUDJ4=
