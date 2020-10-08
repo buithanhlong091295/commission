@@ -3,10 +3,11 @@ package grpc
 import (
 	"context"
 	"xtek/exchange/commission/internal/domain/commission"
+	dErrors "xtek/exchange/commission/internal/errors"
 	pb "xtek/exchange/commission/pb/commission"
 	pbDTO "xtek/exchange/commission/pb/commission/dto"
-	pbTypes "xtek/exchange/commission/pb/commission/types"
-	pbPaginate "xtek/exchange/commission/pb/paginate"
+
+	"github.com/richard-xtek/go-grpc-micro-kit/auth/requestinfo"
 )
 
 // NewUserSiteDelivery ...
@@ -19,55 +20,18 @@ type userSiteDelivery struct {
 }
 
 func (s *userSiteDelivery) GetUserCommissions(ctx context.Context, req *pbDTO.GetUserCommissionsRequest) (*pbDTO.GetUserCommissionsResponse, error) {
-
-	var listings = []*pbTypes.Commission{
-		&pbTypes.Commission{
-			Id:          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-			SenderID:    "bbbbbbbbbbbbbbbbbbbbbbbbbbb",
-			SenderEmail: "abc@gmail.com",
-			ReceiverID:  "cccccccccccccccccccccccccccc",
-			Amount:      "123",
-			Status:      1,
-			CreatedAt:   1601972004,
-		},
-		&pbTypes.Commission{
-			Id:          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-			SenderID:    "bbbbbbbbbbbbbbbbbbbbbbbbbbb",
-			SenderEmail: "abc@gmail.com",
-			ReceiverID:  "cccccccccccccccccccccccccccc",
-			Amount:      "123",
-			Status:      1,
-			CreatedAt:   1601972004,
-		}, &pbTypes.Commission{
-			Id:          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-			SenderID:    "bbbbbbbbbbbbbbbbbbbbbbbbbbb",
-			SenderEmail: "abc@gmail.com",
-			ReceiverID:  "cccccccccccccccccccccccccccc",
-			Amount:      "123",
-			Status:      1,
-			CreatedAt:   1601972004,
-		}, &pbTypes.Commission{
-			Id:          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-			SenderID:    "bbbbbbbbbbbbbbbbbbbbbbbbbbb",
-			SenderEmail: "abc@gmail.com",
-			ReceiverID:  "cccccccccccccccccccccccccccc",
-			Amount:      "123",
-			Status:      1,
-			CreatedAt:   1601972004,
-		},
-	}
-	paginate := &pbPaginate.PaginateResponse{
-		Limit:       4,
-		CurrentPage: 1,
-		TotalPages:  1,
-		Total:       4,
+	claim, isOk := requestinfo.ExtractRequestInfo(ctx)
+	if !isOk {
+		return nil, dErrors.ErrAuthenticationFail
 	}
 
-	res := &pbDTO.GetUserCommissionsResponse{
-		Listings:   listings,
-		Pagination: paginate,
+	if claim.UserID == "" {
+		return nil, dErrors.ErrAuthenticationFail
 	}
-
+	res, err := s.comDomain.GetCommissionsByFilter(ctx, req, claim.UserID)
+	if err != nil {
+		return nil, err
+	}
 	return res, nil
 }
 

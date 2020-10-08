@@ -6,7 +6,6 @@ import (
 	pbDTO "xtek/exchange/commission/pb/commission/dto"
 
 	ctx_logf "github.com/richard-xtek/go-grpc-micro-kit/grpc-logf/ctx-logf"
-	"github.com/richard-xtek/go-grpc-micro-kit/utils/math"
 	"go.uber.org/zap"
 )
 
@@ -22,7 +21,7 @@ func (c *CommissionDomain) GetTotalAmountFreezedByCoinNUserID(ctx context.Contex
 		return nil, err
 	}
 	res := &pbDTO.GetTotalAmountFreezedByUserIDNCoinResponse{
-		Amount: math.ToDecimalString(total),
+		Amount: total.String(),
 	}
 	return res, nil
 }
