@@ -37,6 +37,7 @@ type CommissionHistory struct {
 	SenderID   string           `json:"senderID" bson:"senderID"`
 	ReceiverID string           `json:"receiverID" bson:"receiverID"`
 	Amount     *big.Int         `json:"amount" bson:"amount"`
+	AmountUSDT *big.Int         `json:"amountUSDT" bson:"amountUSDT"`
 	Type       CommissionType   `json:"type" bson:"type"`
 	Status     CommissionStatus `json:"status" bson:"status"`
 	CreatedAt  time.Time        `json:"createdAt" bson:"createdAt"`
@@ -58,6 +59,7 @@ type CommissionHistoryRecord struct {
 	SenderID   string           `json:"senderID" bson:"senderID"`
 	ReceiverID string           `json:"receiverID" bson:"receiverID"`
 	Amount     string           `json:"amount" bson:"amount"`
+	AmountUSDT string           `json:"amountUSDT" bson:"amountUSDT"`
 	Type       CommissionType   `json:"type" bson:"type"`
 	Status     CommissionStatus `json:"status" bson:"status"`
 	CreatedAt  time.Time        `json:"createdAt" bson:"createdAt"`
@@ -84,6 +86,11 @@ func (b *CommissionHistory) SetBSON(raw bson.Raw) error {
 	} else {
 		b.Amount = big.NewInt(0)
 	}
+	if decode.AmountUSDT != "" {
+		b.AmountUSDT = math.DBStringToBigInt(decode.AmountUSDT)
+	} else {
+		b.AmountUSDT = big.NewInt(0)
+	}
 	b.Type = decode.Type
 	b.Status = decode.Status
 	return nil
@@ -107,6 +114,9 @@ func (b *CommissionHistory) GetBSON() (interface{}, error) {
 	}
 	if b.Amount != nil {
 		or.Amount = math.BigIntToDBString(b.Amount)
+	}
+	if b.AmountUSDT != nil {
+		or.AmountUSDT = math.BigIntToDBString(b.AmountUSDT)
 	}
 	return or, nil
 }

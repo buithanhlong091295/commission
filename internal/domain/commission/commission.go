@@ -9,15 +9,18 @@ import (
 func NewCommissionDomain(
 	userClient pbUser.InternalSiteServiceClient,
 	commissionRepo stores.CommissionRepo,
+	usersMemberRepo stores.UsersMemberRepo,
 ) *CommissionDomain {
 	return &CommissionDomain{
 		userClient,
 		commissionRepo,
+		usersMemberRepo,
 	}
 }
 
 // CommissionDomain struct
 type CommissionDomain struct {
-	userClient     pbUser.InternalSiteServiceClient
-	commissionRepo stores.CommissionRepo
+	userClient      pbUser.InternalSiteServiceClient
+	commissionRepo  stores.CommissionRepo
+	usersMemberRepo stores.UsersMemberRepo
 }

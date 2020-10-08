@@ -15,4 +15,11 @@ type CommissionRepo interface {
 	CountByQuery(query map[string]interface{}) (int, error)
 	UpdateByQuery(ID string, query map[string]interface{}) error
 	GetTotalAmountByUserIDNCoinNStatus(coin, userID string, status models.CommissionStatus) (*big.Int, error)
+	GetTotalAmountEarnByUserID(userID string) (*big.Int, error)
+}
+
+// UsersMemberRepo ...
+type UsersMemberRepo interface {
+	Create(ct *models.UsersMember) error
+	GetByUserID(userID string) (*models.UsersMember, error)
 }

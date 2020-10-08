@@ -25,6 +25,7 @@ func (c *CommissionDomain) CreateCommissionWithEvent(ctx context.Context, payloa
 		Coin:       payload.GetCoin(),
 		Type:       models.CommissionType(payload.GetType()),
 		Amount:     math.ToBigInt(payload.GetAmount()),
+		AmountUSDT: math.ToBigInt(payload.GetAmountUSDT()),
 	}
 	err := c.commissionRepo.Create(com)
 	if err != nil {
